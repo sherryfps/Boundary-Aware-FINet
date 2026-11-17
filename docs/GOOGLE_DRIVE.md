@@ -1,6 +1,6 @@
 # Google Drive upload and restore
 
-**Drive folder link: pending upload.** No external download link has been invented. Add the folder's actual sharing link to this page and the root README after upload.
+**[Open the owner's Google Drive folder](https://drive.google.com/drive/folders/1dOmyEh9O8oKWYxZb__fVAMuBv6avcKbZ?usp=sharing).** The owner supplied this link on November 18, 2026. Contents, permissions and upload completeness have not been independently verified; compare downloaded folders with the file manifest before relying on this as a complete backup.
 
 The following folders stay on this laptop and are excluded from Git. Upload them to one Drive folder, preserving their names and internal paths, to retain the full research data and recovery record.
 

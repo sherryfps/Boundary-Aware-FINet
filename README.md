@@ -38,7 +38,7 @@ Open **http://127.0.0.1:7860**. Choose **Camouflaged Objects** for the completed
 
 ## Datasets and recovery files on Google Drive
 
-**Google Drive link: pending upload.** Large datasets and recovery archives are excluded from Git. [Upload list and restore instructions](docs/GOOGLE_DRIVE.md) identify every required folder; the [file manifest](docs/drive_file_manifest.csv) lists individual files and sizes. This repository includes the app's three final checkpoints and the paper. Virtual environments and temporary caches can be recreated.
+**[Google Drive folder](https://drive.google.com/drive/folders/1dOmyEh9O8oKWYxZb__fVAMuBv6avcKbZ?usp=sharing)** for datasets and recovery archives excluded from Git. [Upload list and restore instructions](docs/GOOGLE_DRIVE.md) identify every required folder; the [file manifest](docs/drive_file_manifest.csv) lists individual files and sizes. Drive upload completeness has not been verified. This repository includes the app's three final checkpoints and the paper. Virtual environments and temporary caches can be recreated.
 
 ## Attribution
 
