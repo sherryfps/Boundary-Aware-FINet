@@ -1,0 +1,6 @@
+# Preserve saved research artifacts and their recorded byte hashes.
+*.pth binary
+*.pdf binary
+*.png binary
+*.zip binary
+output/pdf/finet_research/** -text

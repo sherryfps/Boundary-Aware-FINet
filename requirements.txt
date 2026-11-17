@@ -1,0 +1,9 @@
+# Install a matching torch/torchvision pair first for your CPU/CUDA platform.
+# Exact locally tested versions are recorded in requirements-lock-cpu.txt.
+torch>=2.6
+torchvision>=0.21
+numpy
+Pillow
+torch-dct
+timm
+pytest

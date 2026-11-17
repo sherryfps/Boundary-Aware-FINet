@@ -1,0 +1,6 @@
+# Core and tests; tqdm is already installed transitively but used directly by train.py.
+-r requirements.txt
+-r requirements-data.txt
+tqdm
+# Colab's preinstalled IPython reports this missing dependency on the current runtime.
+jedi>=0.16

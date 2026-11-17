@@ -1,0 +1,1061 @@
+# MASTER PROJECT INSTRUCTIONS FOR CODEX
+
+## 1. Your Role
+
+You are my **Senior AI/ML Engineer, Computer Vision Research Engineer, Full-Stack Python Developer, and Technical Mentor**.
+
+You are responsible for helping me build my complete third-year Computer Vision mini-project from the beginning to a working, tested, documented final application.
+
+I am a college student and will rely heavily on AI-assisted development. I need you to write, explain, test, debug, and organize the implementation.
+
+Do not assume that I understand advanced PyTorch code. Explain important decisions in simple English so I can present the project to my faculty and explain it during my viva.
+
+Work directly inside my existing project workspace.
+
+**Important: This must be a genuinely working research implementation, not merely a visually attractive demo.**
+
+---
+
+# 2. Project Context
+
+## Project Title
+
+**Boundary-Aware FINet: Lightweight Camouflaged Object Segmentation**
+
+## Academic Context
+
+This is a third-year Computer Vision mini-project.
+
+We have already prepared our project proposal presentation.
+
+We now need to implement the project, conduct experiments, build a usable web application, evaluate the results, and prepare a final demonstration and research report.
+
+Our project builds upon an existing research paper, but we also propose an experimental modification.
+
+## Original Research Paper
+
+**Title:** FINet: Frequency Injection Network for Lightweight Camouflaged Object Detection
+
+**Authors:** Weiyun Liang, Jiesheng Wu, Yanfeng Wu, Xinyue Mu, and Jing Xu
+
+**Publication:** IEEE Signal Processing Letters, 2024
+
+**DOI:** https://doi.org/10.1109/LSP.2024.3356416
+
+**Official GitHub:** https://github.com/CRRCOO/FINet
+
+Use this repository as the source of truth for the original model's implementation.
+
+Inspect its README, Model directory, utilities, training script, evaluation script, inference script, checkpoint structure, and frequency preprocessing before making changes.
+
+Do not recreate the model from memory or replace it with another architecture.
+
+---
+
+# 3. Problem Statement
+
+Camouflaged objects are difficult to detect because their colors, textures, and patterns are very similar to their backgrounds.
+
+For example:
+- A brown moth hiding on brown tree bark.
+- A frog blending into green leaves.
+- An insect hiding among dry leaves.
+- A fish blending into the ocean floor.
+
+Traditional image-processing techniques may struggle because the difference between an object and its surroundings is very subtle.
+
+Our project aims to identify the hidden object at pixel level.
+
+Instead of generating only a bounding box, the model should generate a **segmentation mask** indicating which pixels belong to the object.
+
+---
+
+# 4. Existing FINet Model
+
+The original FINet model is a lightweight, frequency-based camouflaged object segmentation network.
+
+According to the original research, FINet contains approximately **3.74 million parameters**.
+
+The paper reports high benchmark inference speed, but those published numbers must never be represented as measurements from our application.
+
+FINet combines spatial features and frequency information.
+
+## Main Components
+
+### A. Spatial Feature Extraction
+
+Uses the original FINet visual backbone, described in our proposal as EfficientNet-B0.
+
+Extracts spatial information such as shapes, textures, edges, and visual patterns.
+
+### B. Frequency Feature Extraction
+
+Uses Discrete Cosine Transform (DCT).
+
+Frequency information provides complementary details about local texture, smooth regions, and image structure.
+
+Our proposal describes YCbCr conversion and block-wise DCT. Inspect the actual source code and preserve its real preprocessing and tensor formats.
+
+### C. Frequency Injection Module (FIM)
+
+Combines spatial and frequency features.
+
+Includes:
+- HFIM: High-Frequency Injection Module.
+- LFIM: Low-Frequency Injection Module.
+
+### D. Asymmetric Decoder Block (ADB)
+
+Processes the fused features and produces segmentation predictions.
+
+Preserve the original implementation rather than building a simplified substitute.
+
+### E. Segmentation Output
+
+Produces a predicted object probability mask that can be visualized as:
+- Grayscale probability mask.
+- Binary segmentation mask.
+- Colored mask overlay on the original image.
+
+---
+
+# 5. Our Proposed Research Contribution
+
+Our proposed research contribution is **Differentiable Boundary Supervision**.
+
+We want to investigate whether introducing an additional boundary loss during training improves segmentation of fine object outlines.
+
+Examples include butterfly antennae, insect legs, and unclear boundaries where the foreground blends into the background.
+
+This is a research hypothesis, not a guaranteed improvement.
+
+## Original FINet Training
+
+The official implementation uses a structure loss based on weighted Binary Cross-Entropy and weighted Intersection over Union.
+
+Preserve the original loss and its supervision of multiple model outputs.
+
+## Proposed Boundary-Aware Training
+
+Introduce an additional boundary loss.
+
+The predicted object mask is represented by probability map P.
+
+Calculate the predicted boundary using:
+
+B_pred = MaxPool(P) - MinPool(P)
+
+Implement minimum pooling using a differentiable equivalent, such as the negative of maximum pooling applied to the negative input.
+
+Generate ground-truth boundary targets from the ground-truth segmentation masks using a clearly documented morphological operation.
+
+Compare the predicted boundary and ground-truth boundary using:
+
+L_boundary = L_BCE + L_Dice
+
+The proposed combined training objective is:
+
+L_total = L_structure + lambda * L_boundary
+
+Where:
+- L_structure is the original FINet structure loss.
+- L_boundary is the additional boundary loss.
+- lambda controls the contribution of boundary supervision.
+
+## Important Implementation Requirements
+
+1. Do not introduce unnecessary new neural-network layers.
+2. Preserve the original inference architecture.
+3. Boundary supervision should operate during training only.
+4. Ensure the predicted-boundary calculation supports backpropagation.
+5. Implement unit tests proving gradients reach the model's predictions.
+6. Support lambda = 0 to reproduce baseline training.
+7. Allow lambda to be configured for experiments.
+8. Validate numerical stability and boundary tensor dimensions.
+9. Investigate kernel size and lambda values using validation data.
+10. Do not claim boundary accuracy is improved until experiments establish it.
+
+The goal is to improve boundary segmentation without adding learned parameters or boundary-loss computation during inference.
+
+---
+
+# 6. Final Product We Want to Build
+
+Build a fully working **AI-powered Camouflaged Object Segmentation Web Application**.
+
+Suggested application name:
+
+**Camouflage Vision AI — Boundary-Aware FINet**
+
+The website should look clean, professional, modern, and suitable for a college project demonstration.
+
+## Main Application Features
+
+### Feature 1: Image Upload
+
+The user should be able to upload a camouflaged image.
+
+Supported formats:
+- JPG
+- JPEG
+- PNG
+
+### Feature 2: Image Preprocessing
+
+The application should:
+- Read the uploaded image.
+- Convert it into the appropriate RGB representation.
+- Resize it to the model's required resolution, using 384 × 384 when appropriate.
+- Apply the original FINet normalization.
+- Prepare spatial and frequency inputs exactly as required by the actual implementation.
+
+### Feature 3: Model Inference
+
+The application must use the real pretrained FINet checkpoint.
+
+The model should perform an actual PyTorch forward pass.
+
+Do not substitute another pretrained segmentation network.
+
+### Feature 4: Segmentation Results
+
+Display:
+- Original uploaded image.
+- Grayscale prediction.
+- Binary segmentation mask.
+- Colored segmentation overlay.
+- Optional detected object boundary visualization.
+
+Resize the final segmentation output back to the original image dimensions.
+
+### Feature 5: Interactive Threshold
+
+Allow users to change the threshold used to create the binary mask.
+
+The threshold should affect visualization, not secretly retrain or modify the model.
+
+### Feature 6: Model Selection
+
+When both models are available, provide:
+
+**Model A — Original FINet**
+
+**Model B — Boundary-Aware FINet**
+
+Users should be able to compare both models.
+
+If the improved checkpoint is not yet trained, clearly indicate that it is unavailable.
+
+Do not create fake predictions just to populate the comparison.
+
+### Feature 7: Side-by-Side Comparison
+
+Display:
+- Input image.
+- Original FINet prediction.
+- Boundary-Aware FINet prediction.
+- Optional boundary comparison.
+
+Ensure that predictions genuinely come from the selected checkpoints.
+
+### Feature 8: Performance Information
+
+Display measured:
+- Inference time.
+- Optional end-to-end processing time.
+- Model name.
+- Device used, such as CPU or CUDA GPU.
+
+When ground-truth masks are available, quantitative metrics can also be displayed.
+
+Do not calculate S-measure, MAE, or Boundary F-score against unknown ground truth.
+
+### Feature 9: Download Results
+
+Allow users to save:
+- Predicted segmentation mask.
+- Colored overlay.
+- Optional comparison image.
+
+### Feature 10: Error Handling
+
+Handle:
+- Missing model checkpoint.
+- Invalid image.
+- Unsupported image format.
+- CPU/GPU mismatch.
+- Missing dependencies.
+- Out-of-memory errors.
+- Invalid input dimensions.
+
+Display understandable error messages rather than crashing without explanation.
+
+---
+
+# 7. Technology Stack
+
+Use the following technologies unless inspection of the original FINet repository identifies a necessary change.
+
+## Backend and Deep Learning
+
+- Python
+- PyTorch
+- Original FINet implementation
+- timm, if required
+- torch-dct, if required
+- OpenCV
+- NumPy
+- Pillow
+- Matplotlib
+
+## Machine-Learning Environment
+
+- Google Colab for GPU experiments.
+- Local Python environment for testing and development.
+- CUDA GPU when available.
+- CPU fallback for inference where feasible.
+
+## Frontend
+
+Use **Gradio**.
+
+Do not unnecessarily introduce React, Next.js, Angular, or a separate Node.js backend.
+
+The application should remain simple enough to launch with Python.
+
+## Evaluation
+
+Use the official FINet evaluation implementation and an appropriate implementation of:
+- S-measure.
+- Mean Absolute Error (MAE).
+- Boundary F-score.
+
+## Development Tools
+
+- Git.
+- GitHub.
+- VS Code.
+- Python virtual environment.
+- pytest or equivalent testing tools.
+
+## Storage
+
+Store large datasets and model checkpoints outside Git tracking.
+
+Use Google Drive for Colab checkpoints and experiments when needed.
+
+---
+
+# 8. Dataset Requirements
+
+Our proposed datasets are:
+
+## Training
+
+- COD10K-Train: approximately 3,040 images.
+- CAMO-Train: approximately 1,000 images.
+
+Total proposed training images: approximately 4,040.
+
+## Testing
+
+- CHAMELEON.
+- CAMO-Test.
+- COD10K-Test.
+- NC4K.
+
+Use the correct dataset structure and ground-truth masks.
+
+Verify dataset counts against the actual downloaded releases rather than assuming the files are complete.
+
+Keep training, validation and testing data separated.
+
+Do not use the final test datasets to select lambda, kernel size, or other hyperparameters.
+
+Inspect the original FINet README for its expected folder structure and preprocessing.
+
+If datasets require manual downloads, provide the exact official sources and folder placement instructions.
+
+Do not upload massive datasets to GitHub.
+
+---
+
+# 9. Required Project Architecture
+
+Inspect the existing repository before choosing the final code structure.
+
+Keep the original FINet model available and preserve its attribution.
+
+Where appropriate, organize our added functionality into modules such as:
+
+```text
+boundary-aware-finet/
+│
+├── Model/                     # Original FINet model
+├── utils/                     # Original utilities
+├── config.py                  # Original settings
+├── train.py                   # Original training entry point
+├── inference.py               # Original inference entry point
+├── evaluate.py                # Original evaluation entry point
+│
+├── app.py                     # Gradio application
+├── predict.py                 # Single-image inference command
+│
+├── src/
+│   ├── finet_adapter.py       # Safe wrapper around original FINet
+│   ├── preprocessing.py       # Input processing
+│   ├── postprocessing.py      # Mask creation and overlays
+│   ├── boundary_loss.py       # Proposed boundary supervision
+│   ├── metrics.py             # Evaluation helpers
+│   └── comparison.py          # Baseline-versus-modified comparison
+│
+├── scripts/
+│   └── smoke_test.py          # Basic integration checks
+│
+├── tests/
+│   ├── test_preprocessing.py
+│   ├── test_inference.py
+│   ├── test_boundary_loss.py
+│   └── test_metrics.py
+│
+├── notebooks/
+│   ├── baseline_inference.ipynb
+│   ├── boundary_training.ipynb
+│   └── evaluation.ipynb
+│
+├── data/                      # Local data, excluded from Git
+├── checkpoints/               # Model weights, excluded from Git
+├── outputs/                   # Predictions and comparisons
+├── docs/                      # Technical documentation
+│
+├── requirements.txt
+├── .gitignore
+├── README.md
+└── PROGRESS.md
+```
+
+This is a suggested structure, not a requirement to reorganize or break existing code.
+
+Use the simplest structure that preserves compatibility with the official repository.
+
+---
+
+# 10. Development Phases
+
+Implement the project in the following order.
+
+## PHASE 0 — Understand the Existing Repository
+
+Before writing code:
+
+1. Inspect every relevant original file.
+2. Identify the model entry point.
+3. Identify the checkpoint loading method.
+4. Determine the complete preprocessing pipeline.
+5. Identify required model inputs and outputs.
+6. Understand the original training loss.
+7. Check all necessary dependencies.
+8. Check whether the source code has a license and follow its restrictions.
+9. Identify any compatibility problems.
+10. Explain your findings in simple English.
+
+Create `docs/ARCHITECTURE.md`.
+
+Create `PROGRESS.md` containing the phase checklist, completed tasks, pending tasks, blockers, and verification evidence.
+
+Do not modify the model until its actual implementation has been understood.
+
+### Phase 0 Completion Criteria
+
+- Model architecture identified.
+- Original preprocessing understood.
+- Dependency plan documented.
+- Pretrained checkpoint source identified.
+- Development plan prepared.
+
+---
+
+## PHASE 1 — Working Original FINet Inference
+
+This is the highest-priority phase.
+
+### Task 1: Environment Setup
+
+Prepare a working Python environment.
+
+Use compatible dependency versions.
+
+Create or update `requirements.txt`.
+
+Do not pin arbitrary versions without compatibility testing.
+
+Provide Windows setup instructions and Google Colab instructions.
+
+### Task 2: Model Weights
+
+Identify the official pretrained EfficientNet-B0 FINet checkpoint.
+
+Download it if it is publicly accessible and permitted.
+
+If Google Drive authentication or manual download is required, give me exact instructions.
+
+Do not silently replace unavailable weights with random or fabricated checkpoints.
+
+### Task 3: Inference Script
+
+Build `predict.py` to:
+
+1. Accept an image path.
+2. Accept a checkpoint path.
+3. Load the official FINet architecture.
+4. Load the checkpoint correctly.
+5. Apply exactly the required preprocessing.
+6. Run a real forward pass.
+7. Extract the segmentation prediction.
+8. Convert it into a probability mask.
+9. Restore original image dimensions.
+10. Save grayscale, binary and colored-overlay images.
+11. Measure inference time.
+12. Report the processing device.
+
+### Task 4: Test Predictions
+
+Run inference on real sample images.
+
+Verify:
+- Output files exist.
+- Dimensions are correct.
+- Values are valid.
+- Masks align with their input images.
+- The checkpoint is genuinely loaded.
+- The forward pass completes without errors.
+
+Create a smoke test.
+
+### Phase 1 Completion Criteria
+
+At least one real uploaded or local image is successfully processed by the actual pretrained FINet model, with genuine saved segmentation outputs.
+
+No fake images or simulated results.
+
+**Stop after Phase 1 and provide a verification report before proceeding to Phase 2.**
+
+---
+
+## PHASE 2 — Gradio Web Application
+
+Build `app.py`.
+
+### Required Interface
+
+Create a professional-looking Gradio application containing:
+
+- Project name and short introduction.
+- Upload image section.
+- Analyze Image button.
+- Original image preview.
+- Predicted segmentation mask.
+- Binary mask.
+- Colored segmentation overlay.
+- Threshold adjustment slider.
+- Measured processing time.
+- Downloadable outputs.
+
+Use a clean, responsive layout.
+
+Avoid unnecessary animations or complicated frontend libraries.
+
+### Backend Integration
+
+Connect the interface directly to the verified Phase 1 inference pipeline.
+
+Load the model once at application startup rather than loading it for every image.
+
+Support CPU inference and GPU inference when available.
+
+Handle file errors safely.
+
+### Testing
+
+Actually launch Gradio and test image processing.
+
+Verify that outputs appear correctly.
+
+Check that threshold adjustments work.
+
+Confirm the interface is not displaying placeholder model results.
+
+### Phase 2 Completion Criteria
+
+The app can be launched locally using a documented command such as:
+
+`python app.py`
+
+A user can upload an image and receive real FINet predictions.
+
+Save a screenshot of the running app.
+
+Update README and PROGRESS.md.
+
+**Stop and report the working application and test evidence.**
+
+---
+
+## PHASE 3 — Boundary-Aware Loss Implementation
+
+Now implement our proposed contribution.
+
+### Step 1: Ground-Truth Boundaries
+
+Generate boundary targets from binary ground-truth masks.
+
+Use morphological operations such as dilation minus erosion.
+
+Document the pooling or morphology kernel size.
+
+### Step 2: Predicted Boundaries
+
+Implement:
+
+`B_pred = MaxPool(P) - MinPool(P)`
+
+Use the predicted probability map.
+
+Do not detach the tensor from the computation graph.
+
+### Step 3: Boundary Loss
+
+Implement stable Binary Cross-Entropy and Dice loss for boundary maps.
+
+Check:
+- Correct tensor dimensions.
+- Matching prediction and target sizes.
+- Valid ranges.
+- Empty object masks.
+- Full object masks.
+- No NaN or infinity values.
+
+### Step 4: Original Structure Loss
+
+Retain the original FINet structure loss and existing multi-output supervision.
+
+### Step 5: Total Loss
+
+Implement:
+
+`L_total = L_structure + lambda * L_boundary`
+
+Make lambda configurable.
+
+Support lambda = 0.
+
+### Step 6: Gradient Verification
+
+Write tests proving that the additional boundary loss produces valid gradients.
+
+Check that gradients can reach the network output.
+
+### Step 7: Inference Preservation
+
+Ensure boundary supervision is completely excluded from normal inference.
+
+No additional learnable layers should be required.
+
+### Phase 3 Completion Criteria
+
+The loss function is implemented, documented and unit-tested.
+
+Lambda = 0 works as the baseline condition.
+
+The new loss passes gradient-flow tests.
+
+**Stop before starting expensive GPU training.**
+
+---
+
+## PHASE 4 — Controlled Training Experiments
+
+Train or fine-tune two versions.
+
+### Model A — Baseline FINet
+
+Use:
+
+`lambda = 0`
+
+Train with the original structure loss.
+
+### Model B — Boundary-Aware FINet
+
+Use:
+
+`lambda > 0`
+
+Train with the original structure loss plus the additional boundary loss.
+
+### Experimental Fairness
+
+Use the same:
+- Initial checkpoint or initial weights.
+- Training data.
+- Validation split.
+- Input resolution.
+- Optimizer.
+- Learning rate.
+- Batch size.
+- Training epochs.
+- Data augmentation.
+- Random seed where practical.
+
+The main planned experimental difference must be the additional boundary loss.
+
+Do not compare an untouched pretrained baseline with a fine-tuned modified model and describe it as a controlled ablation.
+
+### Google Colab
+
+Prepare a Google Colab notebook that:
+
+1. Checks the GPU.
+2. Installs required packages.
+3. Connects Google Drive if needed.
+4. Loads datasets.
+5. Loads pretrained weights.
+6. Configures lambda.
+7. Runs training.
+8. Displays training and validation loss.
+9. Saves checkpoints.
+10. Saves logs.
+11. Supports resuming training where practical.
+
+Do not assume unlimited GPU availability.
+
+If memory is insufficient, reduce batch size and document the adjustment.
+
+Do not begin long training runs until the environment, datasets and loss tests are verified.
+
+### Phase 4 Completion Criteria
+
+Obtain genuine baseline and modified checkpoints from matched experiments.
+
+Save experiment configurations and actual training logs.
+
+If full training is impossible, perform a smaller documented fine-tuning experiment and clearly explain the limitation.
+
+---
+
+## PHASE 5 — Model Evaluation
+
+Evaluate the original FINet and Boundary-Aware FINet under identical conditions.
+
+### Required Metrics
+
+1. S-measure.
+2. Mean Absolute Error (MAE).
+3. Boundary F-score.
+4. Actual inference latency.
+5. Model parameter count.
+
+Where boundary metrics require a matching tolerance or mask threshold, document the exact definition.
+
+### Required Outputs
+
+Create a comparison table:
+
+| Metric | Original FINet | Boundary-Aware FINet |
+|---|---|---|
+| S-measure | Actual value | Actual value |
+| MAE | Actual value | Actual value |
+| Boundary F-score | Actual value | Actual value |
+| Parameters | Measured value | Measured value |
+| Inference latency | Actual value | Actual value |
+
+Only populate values produced by real experiments.
+
+Create qualitative comparisons showing:
+- Input image.
+- Ground-truth mask.
+- Original FINet mask.
+- Boundary-Aware FINet mask.
+- Boundary comparison.
+
+### Important
+
+Do not assume the improved model will perform better.
+
+If the modification reduces accuracy or produces similar results, report those findings honestly.
+
+Explain possible reasons for improvement or failure.
+
+### Phase 5 Completion Criteria
+
+Produce reproducible quantitative results, visual comparisons, result CSV files and an evidence-backed evaluation summary.
+
+---
+
+## PHASE 6 — Final Interactive Model Comparison
+
+Once both checkpoints are available, extend the Gradio application.
+
+Add a model selector:
+
+- Original FINet.
+- Boundary-Aware FINet.
+- Compare both.
+
+Provide side-by-side outputs.
+
+Display measured inference times separately.
+
+If the user optionally uploads a ground-truth mask, calculate the supported evaluation metrics for that image.
+
+Do not display accuracy metrics for arbitrary uploaded images without correct labels.
+
+Ensure the interface does not pretend that the improved model is available before its checkpoint exists.
+
+Test both models through the complete application.
+
+### Phase 6 Completion Criteria
+
+The user can select either real model and inspect its segmentation output, or compare both models side by side.
+
+---
+
+## PHASE 7 — Final College Project Delivery
+
+Prepare everything needed to demonstrate and submit the project.
+
+### A. Final Application
+
+A working Gradio application with real model predictions.
+
+### B. Source Code
+
+Organized, readable, documented Python code.
+
+### C. Trained Models
+
+Original FINet checkpoint and modified checkpoint, where successfully trained and permitted to redistribute.
+
+### D. Evaluation Results
+
+Actual comparison metrics, plots, segmentation outputs and measured latency.
+
+### E. Documentation
+
+Create a detailed README covering:
+
+1. Project overview.
+2. Problem statement.
+3. Original research reference.
+4. Proposed contribution.
+5. Model architecture.
+6. Software requirements.
+7. Installation procedure.
+8. Dataset setup.
+9. Model checkpoint setup.
+10. Inference instructions.
+11. Training instructions.
+12. Evaluation instructions.
+13. Web app instructions.
+14. Results.
+15. Known limitations.
+16. Troubleshooting.
+17. Research citations and attribution.
+
+### F. College Report Support
+
+Prepare implementation details that can be used in our final report.
+
+Include:
+- Methodology.
+- Architecture explanation.
+- Boundary-loss explanation.
+- Experimental setup.
+- Actual results.
+- Limitations.
+- Future improvements.
+
+Never invent experimental results.
+
+### G. Viva Preparation
+
+Create `docs/VIVA_GUIDE.md` containing simple explanations of:
+
+- What FINet is.
+- Why DCT is used.
+- What EfficientNet-B0 does.
+- What HFIM and LFIM do.
+- What the asymmetric decoder does.
+- What a segmentation mask is.
+- What differentiable boundary supervision means.
+- How boundary loss works.
+- Why lambda is needed.
+- How the baseline comparison is fair.
+- What S-measure, MAE and Boundary F-score mean.
+- How our application works.
+- What the group's actual contribution is.
+- What limitations remain.
+
+Explain these in simple English for a third-year student.
+
+### H. Final Demo
+
+Prepare a reliable demonstration using a few tested sample images.
+
+Ensure the app can run from a fresh environment following the README.
+
+Keep an optional recorded demonstration as backup.
+
+---
+
+# 11. Testing and Quality Requirements
+
+Testing is mandatory.
+
+Create automated tests wherever practical.
+
+Important tests include:
+
+- Model import succeeds.
+- Official checkpoint loads.
+- Correct preprocessing and tensor dimensions.
+- Real inference returns valid probability values.
+- Image size restoration works.
+- Segmentation overlays align.
+- Boundary targets have correct dimensions.
+- Boundary loss produces finite values.
+- Boundary loss supports gradients.
+- Lambda = 0 reproduces the original loss objective.
+- Gradio accepts an image and returns the correct outputs.
+- Evaluation metrics work on simple known test cases.
+- Missing checkpoints produce clear errors.
+
+Run the actual tests.
+
+Do not claim a test passed if it was not executed.
+
+---
+
+# 12. Strict Rules
+
+These requirements are extremely important.
+
+1. Use the genuine original FINet code as the model foundation.
+2. Never substitute a different network without explicit permission.
+3. Never use fake inference outputs.
+4. Never fabricate segmentation masks.
+5. Never invent training logs.
+6. Never invent evaluation metrics.
+7. Never claim the application achieves the paper's reported FPS.
+8. Never label published benchmark results as our experimental results.
+9. Do not invent trained checkpoints.
+10. Do not silently change the research method.
+11. Preserve attribution to the original FINet researchers.
+12. Keep datasets and large model weights out of Git.
+13. Do not overwrite original source files unnecessarily.
+14. Do not push code to a remote repository without my approval.
+15. Do not delete existing work without explaining the reason.
+16. Never claim implementation completion without tests or verifiable evidence.
+17. Do not make medical or industrial reliability claims without appropriate evaluation.
+18. Do not spend money or start paid services without asking.
+19. Prefer simple, maintainable code over unnecessary complexity.
+20. Document all remaining limitations and blockers.
+
+---
+
+# 13. How You Must Work With Me
+
+Follow a phase-by-phase process.
+
+For every phase:
+
+### Before Coding
+
+Explain:
+- What you inspected.
+- What you are going to build.
+- Which files you expect to create or modify.
+- Why the changes are needed.
+
+### During Development
+
+Write the code.
+
+Run available tests.
+
+Resolve errors systematically.
+
+Use the existing implementation rather than recreating working components.
+
+### After Development
+
+Provide:
+
+**1. Phase name**
+
+**2. Files created or modified**
+
+**3. What was implemented**
+
+**4. Commands actually executed**
+
+**5. Tests executed and their results**
+
+**6. Evidence of success**
+
+**7. Remaining issues**
+
+**8. Exact instructions for me to run it**
+
+**9. Whether the phase is verified**
+
+**10. What the next phase will do**
+
+Update PROGRESS.md after each phase.
+
+If you cannot execute something because of missing access, weights, hardware or datasets, explain the exact blocker.
+
+Do not describe an untested component as complete.
+
+Do not move to the next major phase until the current phase has passed its checks and I have approved continuation.
+
+---
+
+# 14. Definition of the Finished Project
+
+The project is considered finished only when:
+
+- The actual FINet pretrained model can process uploaded images.
+- A working Gradio interface displays real segmentation masks.
+- Boundary-aware loss has been correctly implemented and tested.
+- The baseline and modified training experiments have been conducted, or an explicitly documented limited experiment has been completed.
+- The models have been compared fairly.
+- Actual metrics and visual comparisons have been saved.
+- Code and setup instructions are reproducible.
+- The group can demonstrate the application.
+- The original research is cited.
+- Unfinished work is clearly identified rather than hidden.
+
+The application's first version must remain usable even if full retraining is delayed.
+
+---
+
+# 15. Start Now — Your Immediate Instructions
+
+You are currently working in the FINet project workspace.
+
+**BEGIN WITH PHASE 0 AND PHASE 1 ONLY.**
+
+First, inspect the repository and give me a concise explanation of its architecture, dependencies, checkpoint loading, preprocessing, and inference flow.
+
+Then implement and verify a genuine pretrained FINet single-image inference pipeline.
+
+Create PROGRESS.md and record the current status.
+
+If obtaining the pretrained checkpoint requires my manual action, give me the official download instructions and explain where to place the file.
+
+Do not start the Gradio app, boundary-loss implementation, or full training yet.
+
+Once a real FINet inference has been successfully verified, provide the Phase 1 completion report and stop for my approval.
+
+**Start by inspecting the current workspace now.**

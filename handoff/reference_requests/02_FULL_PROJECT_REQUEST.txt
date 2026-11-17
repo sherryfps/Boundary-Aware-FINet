@@ -1,0 +1,175 @@
+I want you to take full responsibility for completing my **Boundary-Aware FINet: Lightweight Camouflaged Object Segmentation** college project using AI-assisted development and computer automation wherever available.
+
+**Current project status:**
+- Original FINet architecture understood.
+- ImageNet-pretrained EfficientNet-B0 verified.
+- RGB/DCT preprocessing verified.
+- 63 tests passed, 2 skipped.
+- Real CPU training and checkpoint saving/resuming verified.
+- Google Colab training notebook prepared.
+- Full dataset collection and GPU training pending.
+- Gradio application, boundary-aware loss, evaluation, and final demonstration not yet completed.
+
+Read the existing `PROGRESS.md`, `README.md`, `docs/`, source code, and Colab notebook before proceeding. Preserve all completed work.
+
+## YOUR MAIN TASK
+
+Complete the entire project with as little manual involvement from me as possible.
+
+Use available computer-control capabilities to operate the browser, VS Code, Codex, Google Colab, Google Drive, and GitHub where supported and authorized.
+
+Do not merely give me instructions or generate prompts for another AI agent. **Actually perform the work, execute code, test functionality, fix errors, and produce working deliverables.**
+
+If computer control is unavailable, use available coding tools, connectors, or APIs. Clearly identify actions that genuinely require my involvement. Never claim to have operated an application without doing so.
+
+## PHASE 1 — DATASETS AND BASELINE TRAINING
+
+1. Obtain the full COD10K-Train and CAMO-Train image-mask datasets from trustworthy sources.
+2. Verify dataset completeness, image-mask pairing, and data splits.
+3. Prepare the correct FINet dataset structure.
+4. Open the existing Google Colab notebook.
+5. Configure the available GPU.
+6. Run the GPU smoke test.
+7. Fix dependency, CUDA, memory, preprocessing, or dataset errors.
+8. Configure training with ImageNet-pretrained EfficientNet-B0.
+9. Train the original FINet architecture using its original structure loss.
+10. Save checkpoints and logs to Google Drive.
+11. Resume interrupted training when supported.
+12. Obtain a real trained FINet checkpoint.
+13. Verify segmentation on unseen images.
+
+Do not invent trained weights or segmentation results.
+
+## PHASE 2 — WORKING WEB APPLICATION
+
+Build a professional Gradio application called **Camouflage Vision AI**.
+
+Required features:
+- Image upload.
+- Real FINet inference.
+- Original image preview.
+- Grayscale segmentation mask.
+- Binary mask.
+- Colored object overlay.
+- Adjustable threshold.
+- Measured inference time.
+- Downloadable results.
+- Clear error handling.
+
+Run the application and verify that it produces genuine segmentation predictions.
+
+## PHASE 3 — BOUNDARY-AWARE FINET
+
+Implement our proposed research improvement.
+
+Use:
+
+`B_pred = MaxPool(P) - MinPool(P)`
+
+Calculate BCE and Dice boundary loss using correct boundary targets.
+
+Combine it with the original FINet loss:
+
+`L_total = L_structure + lambda * L_boundary`
+
+Requirements:
+- Preserve the original FINet architecture.
+- No additional inference-time parameters.
+- Differentiable boundary calculation.
+- Unit tests for gradient flow.
+- Configurable lambda.
+- Correct numerical handling.
+- Reproducible experiment settings.
+
+## PHASE 4 — TRAINING AND COMPARISON
+
+Train or fine-tune two models:
+
+**Model A:** Original FINet.
+
+**Model B:** Boundary-Aware FINet.
+
+Use identical starting weights, datasets, preprocessing, optimizer settings, and training schedules wherever practical.
+
+Evaluate both using:
+- S-measure.
+- MAE.
+- Boundary F-score.
+- Parameter count.
+- Actual inference latency.
+
+Generate comparison tables, graphs, and real segmentation outputs.
+
+Do not claim improved accuracy unless actual experiments demonstrate it.
+
+## PHASE 5 — FINAL APPLICATION
+
+Extend the Gradio application to support:
+- Original FINet selection.
+- Boundary-Aware FINet selection.
+- Side-by-side comparison.
+- Boundary visualization.
+- Processing-time comparison.
+- Downloadable segmentation outputs.
+
+Show evaluation metrics only when suitable ground-truth data is available.
+
+## PHASE 6 — FINAL COLLEGE SUBMISSION
+
+Prepare:
+1. Fully working source code.
+2. Model checkpoints.
+3. Final Gradio application.
+4. Training and evaluation notebooks.
+5. Actual experimental results.
+6. Model comparison graphs.
+7. Screenshots of the application.
+8. Complete README.
+9. Project architecture explanation.
+10. Implementation documentation.
+11. Final research report material.
+12. Viva questions and answers.
+13. Backup demonstration video where recording is supported.
+
+## AUTOMATION INSTRUCTIONS
+
+You are authorized to perform routine development operations, run local tests, download publicly available research datasets, configure permitted environments, and prepare project files.
+
+Use computer control wherever available to navigate graphical applications and complete the workflow.
+
+Do not ask for confirmation after every small technical step.
+
+Request my involvement only when necessary for authentication, permissions, potentially paid resources, destructive actions, or major decisions.
+
+Never bypass authentication or access restrictions.
+
+Do not start paid services or incur costs without explicit approval.
+
+Do not fabricate test results or use mock segmentation predictions as final outputs.
+
+If GPU limitations prevent full training, develop the strongest genuinely tested alternative and document the limitations.
+
+## PROGRESS AND VERIFICATION
+
+After each major phase:
+- Update `PROGRESS.md`.
+- Record files created or modified.
+- Run appropriate tests.
+- Save real outputs.
+- Report completed work.
+- Identify blockers.
+- Continue to the next feasible phase.
+
+Prioritize a functioning baseline model and demonstrable application before spending substantial resources on additional experiments.
+
+## START IMMEDIATELY
+
+First inspect the current repository and `PROGRESS.md`.
+
+Then identify the available computer-control, coding, Colab, Drive, and GitHub capabilities.
+
+Continue from the existing completed work rather than starting again.
+
+**My ultimate goal is a genuinely functioning, tested, and documented Boundary-Aware FINet project that I can demonstrate confidently during my college viva.**
+
+Do as much of the actual implementation as your available tools permit, without repeatedly handing the work back to me as instructions.

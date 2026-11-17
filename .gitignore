@@ -1,0 +1,51 @@
+# Environments and Python caches
+.venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Datasets, weights, predictions and training logs stay local
+data/
+checkpoints/
+outputs/
+prediction_maps/
+save_pth/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.log
+runs/
+
+# Local settings
+.env
+.env.*
+.vscode/
+.idea/
+
+# Optional portable ImageNet cache (included in the local transfer bundle)
+model_cache/
+
+# Disposable authoring tools, renders and document build files
+tmp/
+*.aux
+*.xdv
+*.synctex.gz
+
+# Only the three verified final app checkpoints belong in this repository.
+!checkpoints/
+checkpoints/*
+!checkpoints/baseline/
+!checkpoints/boundary/
+!checkpoints/industrial/
+checkpoints/baseline/*
+checkpoints/boundary/*
+checkpoints/industrial/*
+!checkpoints/industrial/baseline/
+checkpoints/industrial/baseline/*
+!checkpoints/baseline/last.pth
+!checkpoints/boundary/last.pth
+!checkpoints/industrial/baseline/last.pth

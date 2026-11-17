@@ -1,0 +1,20 @@
+{
+  "seed": 123456,
+  "image_size": 384,
+  "batch_size": 4,
+  "epochs": 200,
+  "learning_rate": 0.00026,
+  "min_lr": 0.0000001,
+  "weight_decay": 0.00000004,
+  "num_workers": 2,
+  "cpu_threads": 2,
+  "save_every_epochs": 1,
+  "cudnn_enabled": true,
+  "data_root": "data/MVTecAD_supervised_v1",
+  "split_manifest": "data/MVTecAD_supervised_v1/split_manifest.json",
+  "output_dir": "outputs/industrial/baseline_seed123456_v1",
+  "device": "cuda",
+  "initial_checkpoint": null,
+  "boundary_lambda": 0.0,
+  "boundary_kernel": 3
+}

@@ -1,0 +1,23 @@
+{
+  "scope": "Three final installed app checkpoints included in Git; industrial boundary is not installed.",
+  "checkpoints": [
+    {
+      "path": "checkpoints/baseline/last.pth",
+      "bytes": 45886365,
+      "sha256": "660a43bc1f5d57cbfd58d5cec7dd452f592932f34e1b8931567a30784af62810",
+      "completed_epochs": 200
+    },
+    {
+      "path": "checkpoints/boundary/last.pth",
+      "bytes": 45886429,
+      "sha256": "c7859e2b2445dbc195dfc1f94908c862f678871e286eb6a1dd99ef45f3caee48",
+      "completed_epochs": 200
+    },
+    {
+      "path": "checkpoints/industrial/baseline/last.pth",
+      "bytes": 45871325,
+      "sha256": "fd92df468740e977fb16e9bcc6f44dfcf424be8822d155f36ea4cc209d4db94a",
+      "completed_epochs": 200
+    }
+  ]
+}

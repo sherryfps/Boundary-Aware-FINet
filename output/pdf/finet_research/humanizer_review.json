@@ -1,0 +1,53 @@
+{
+  "skill": "humanizer 4.0.0",
+  "mode": "full file prose review with an attribution correction",
+  "date": "2026-11-17",
+  "main_sections_reviewed": [
+    "Introduction and Objectives",
+    "Background and Method",
+    "Experimental Protocol",
+    "Metrics and Auditable Outputs",
+    "Results and Output Analysis",
+    "Limitations and Remaining Evaluation",
+    "Conclusion"
+  ],
+  "subsections_reviewed": 15,
+  "other_material_reviewed": [
+    "title and authors",
+    "abstract",
+    "keywords",
+    "all 14 captions",
+    "all tables and footnotes",
+    "bibliography"
+  ],
+  "unreviewed_sections": [],
+  "edits": [
+    "Replaced staged objectives and document narration with direct statements.",
+    "Varied sentence structure and clarified implementation wording.",
+    "Kept scientific qualifications and genuine technical contrasts.",
+    "Added FINet/F3Net loss-lineage credit and F3Net reference; ordered bibliography by first citation."
+  ],
+  "nonprose_exception": "One F3Net citation and bibliography entry plus a nearby FINet citation were added to repair attribution. Existing bibliography entries retain their exact content. No mathematics or data was changed.",
+  "checks": {
+    "preamble_title_authors_unchanged": true,
+    "all_20_numbered_equation_blocks_byte_equal": true,
+    "all_10_tabular_blocks_byte_equal": true,
+    "display_math_byte_equal": true,
+    "inline_math_preserved": true,
+    "research_numeric_tokens_preserved": true,
+    "original_seven_bibliography_entries_unchanged": true,
+    "only_f3net_reference_added": true,
+    "original_citation_targets_retained": true,
+    "labels_references_figures_paths_unchanged": true,
+    "body_latex_commands_unchanged_except_added_citations": true,
+    "no_prose_em_en_dash_or_double_hyphen": true,
+    "figures_evidence_technical_checks_builder_unchanged": true
+  },
+  "semantic_review": "All changed paragraphs reviewed against the source for preserved claims, result scope, single-seed limits, custom supervised MVTec protocol and missing final industrial boundary evaluation.",
+  "no_training_inference_app_or_cloud_changes": true,
+  "ai_detector_run": false,
+  "dedicated_plagiarism_service_run": false,
+  "detector_or_similarity_score_claimed": false,
+  "source_sha256_before": "269a70931962c4f117e104c8238aa28750069d6f3f033eb394256a5fe3d5b7da",
+  "source_sha256": "8663b134620b0720e958b01fbd6c6ace4b99595d57139a9933ba8d07ee05cc72"
+}

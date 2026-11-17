@@ -4,10 +4,12 @@ from torchvision import models
 
 
 class EfficientNet_B0(nn.Module):
-	def __init__(self):
+	def __init__(self, pretrained=True):
 		super(EfficientNet_B0, self).__init__()
 
-		model = models.efficientnet_b0(weights=models.EfficientNet_B0_Weights.DEFAULT)
+		# A full FINet checkpoint already includes the encoder weights.
+		weights = models.EfficientNet_B0_Weights.DEFAULT if pretrained else None
+		model = models.efficientnet_b0(weights=weights)
 
 		self.layer1 = model.features[0]
 		# main layers: layer2 ~ layer8

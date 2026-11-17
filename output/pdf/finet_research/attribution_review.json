@@ -1,0 +1,473 @@
+{
+  "review_type": "Limited local exact-phrase and attribution review after prose revision",
+  "created_utc": "2026-11-17T15:10:07.048500+00:00",
+  "manuscript": {
+    "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\output\\pdf\\finet_research\\paper.tex",
+    "sha256": "8663b134620b0720e958b01fbd6c6ace4b99595d57139a9933ba8d07ee05cc72",
+    "body_before_bibliography_sha256": "bb5e5ab35299bc66160aeac88f6cac1ea9e82cc68b870723009696dc26db5790",
+    "comparison_tokens_sha256": "b5368fb9eb991676b21a2877ab22cd746eff6fea2e885d48fa09d8d40b154620",
+    "comparison_tokens": 2790,
+    "note": "Full-file hash identifies this observed revision. Bibliography reordering can change full-file hash while leaving body and comparison token hashes unchanged."
+  },
+  "prior_audit": {
+    "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_audit.json",
+    "sha256": "7e3a4f6f0b1f7c53c49348c2655c344edf2b0630f69e8dec687b9657e360a0c3",
+    "reviewed_old_manuscript_sha256": "269a70931962c4f117e104c8238aa28750069d6f3f033eb394256a5fe3d5b7da"
+  },
+  "primary_sources": [
+    {
+      "id": "finet_upstream_readme",
+      "url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/README.md",
+      "resolved_url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/README.md",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\finet_upstream_readme.txt",
+      "scope": "author repository file",
+      "sha256": "773f8cde4e998bef9505a14d454a8f9fc28580b58dd5a8dbaad9eb004ad707d4",
+      "words": 702
+    },
+    {
+      "id": "finet_upstream_method",
+      "url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/Model/FINet.py",
+      "resolved_url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/Model/FINet.py",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\finet_upstream_method.txt",
+      "scope": "author repository file",
+      "sha256": "e868c9385411c24e8c6bd0e9da907aca7ec0e1f31a0e3d6df2e7e4dd6e303236",
+      "words": 1022
+    },
+    {
+      "id": "finet_upstream_train",
+      "url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/train.py",
+      "resolved_url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/train.py",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\finet_upstream_train.txt",
+      "scope": "author repository file",
+      "sha256": "2e08759e342ad3381bce481250b4bb8df595a1a3a1628b0ef1a95c0af750643f",
+      "words": 373
+    },
+    {
+      "id": "finet_upstream_dct",
+      "url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/utils/dct.py",
+      "resolved_url": "https://raw.githubusercontent.com/CRRCOO/FINet/9e42b6bf607a2c89823f5f88dd8d38069039102e/utils/dct.py",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\finet_upstream_dct.txt",
+      "scope": "author repository file",
+      "sha256": "6c4592aa42e65245071725ffe843a6638374ca227e49974d61e42a1b90638ca9",
+      "words": 232
+    },
+    {
+      "id": "efficientnet_abstract",
+      "url": "https://proceedings.mlr.press/v97/tan19a.html",
+      "resolved_url": "https://proceedings.mlr.press/v97/tan19a.html",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\efficientnet_abstract.txt",
+      "scope": "abstract",
+      "sha256": "e828a8cd59f3aeb3dc8e4e230d1a9b1b34b5560c281102e30eb91fdeeed59c01",
+      "words": 180
+    },
+    {
+      "id": "camo_abstract",
+      "url": "https://arxiv.org/abs/2105.09451",
+      "resolved_url": "https://arxiv.org/abs/2105.09451",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\camo_abstract.txt",
+      "scope": "abstract",
+      "sha256": "3d070e808677c9ebc9985566f650ac634f8b63b54a2fec0b42de78fe981ac368",
+      "words": 207
+    },
+    {
+      "id": "cod10k_abstract",
+      "url": "https://openaccess.thecvf.com/content_CVPR_2020/html/Fan_Camouflaged_Object_Detection_CVPR_2020_paper.html",
+      "resolved_url": "https://openaccess.thecvf.com/content_CVPR_2020/html/Fan_Camouflaged_Object_Detection_CVPR_2020_paper.html",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\cod10k_abstract.txt",
+      "scope": "abstract",
+      "sha256": "cd7d0c7a9013157eb8af0a00f6d3eae80e14fc238d939b212f0ae73b870903b5",
+      "words": 206
+    },
+    {
+      "id": "mvtec_abstract",
+      "url": "https://openaccess.thecvf.com/content_CVPR_2019/html/Bergmann_MVTec_AD_--_A_Comprehensive_Real-World_Dataset_for_Unsupervised_Anomaly_CVPR_2019_paper.html",
+      "resolved_url": "https://openaccess.thecvf.com/content_CVPR_2019/html/Bergmann_MVTec_AD_--_A_Comprehensive_Real-World_Dataset_for_Unsupervised_Anomaly_CVPR_2019_paper.html",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\mvtec_abstract.txt",
+      "scope": "abstract",
+      "sha256": "9ffaab5c32d26a938fc4017afdc5afdb7d797948c0ed207833cb16a25710a20c",
+      "words": 200
+    },
+    {
+      "id": "f3net_author_train",
+      "url": "https://raw.githubusercontent.com/weijun-arc/F3Net/master/src/train.py",
+      "resolved_url": "https://raw.githubusercontent.com/weijun-arc/F3Net/master/src/train.py",
+      "status": "ok",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\attribution_corpus\\f3net_author_train.txt",
+      "scope": "author repository file",
+      "sha256": "89d67474f44c4ecefdecc451761e3fa5d16d86766415e3689c54dcaf6663186e",
+      "words": 456
+    }
+  ],
+  "local_document_sources": [
+    {
+      "id": "README.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\README.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "0d23e0c90b5f2ece4d258b1fb94de9d75dcfe6acebd1a3a5717068cd69da6dc5"
+    },
+    {
+      "id": "docs/ARCHITECTURE.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\ARCHITECTURE.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "1703b523b1181b3b13f63fcc153c3e78ae628ab9ab309c82d1827e55a2d385ae"
+    },
+    {
+      "id": "docs/METHODOLOGY.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\METHODOLOGY.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "d903809ff82bf1e17402edef53903c20f3ef39644c168e491f76745f0622de26"
+    },
+    {
+      "id": "docs/INDUSTRIAL_MVTEC.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\INDUSTRIAL_MVTEC.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "1f810bcc7c359584c2e026ebc4970fda6b6cf973852aee43b691ffc584afc655"
+    },
+    {
+      "id": "docs/VIVA.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\VIVA.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "f908c474068c1e50cdd75bcd4ffb0e99a66fd311745ad529c46968d7b4f88b41"
+    },
+    {
+      "id": "docs/DEMO.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\DEMO.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "362037b9940c506164d2b00f5afc719f5cfbf2cf647b1aff145c222c3b3283ac"
+    },
+    {
+      "id": "docs/CAMOUFLAGE_COMPLETION.md",
+      "path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\docs\\CAMOUFLAGE_COMPLETION.md",
+      "status": "ok",
+      "scope": "local project documentation",
+      "sha256": "7396f1e67d4f29791f1c6fbd74e750b6fd94cd0c3c24926c3112a3b5a81949b0"
+    }
+  ],
+  "method": {
+    "network": "Downloaded public primary-source text by URL. No manuscript text was sent to search engines or checkers; searches used only existing publication titles.",
+    "matching": "Lowercase alphabetic tokenization; compare contiguous 8-word windows, with 6-word windows as a broader screening pass. Exclude manuscript bibliography, equation environments, inline/display math, table cells, LaTeX commands and citation/reference targets. Overlapping matching windows are grouped. Matches spanning removed markup or adjacent prose require manual interpretation.",
+    "manual": "Read every paper section, table/caption, source map and project handoff. Compare prose and attribution with local upstream README, exact FINet source and linked author source code.",
+    "limits": [
+      "Exact phrase matching cannot detect paraphrased copying or ideas reused without credit.",
+      "The corpus is limited to listed sources; no subscription plagiarism database or comprehensive literature corpus was searched.",
+      "The FINet full publisher PDF was not retrieved; its authors’ README and implementation were reviewed.",
+      "Similarity counts are not plagiarism percentages. AI authorship cannot be certified from this review."
+    ]
+  },
+  "phrase_comparisons": [
+    {
+      "source": "finet_upstream_readme",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "finet_upstream_method",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "finet_upstream_train",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "finet_upstream_dct",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "efficientnet_abstract",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "camo_abstract",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "cod10k_abstract",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "mvtec_abstract",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "f3net_author_train",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "README.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "docs/ARCHITECTURE.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 2,
+        "maximal_match_groups": 1,
+        "matches": [
+          {
+            "words": 7,
+            "text": "summed depthwise separable paths with and kernels"
+          }
+        ]
+      }
+    },
+    {
+      "source": "docs/METHODOLOGY.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 2,
+        "maximal_match_groups": 1,
+        "matches": [
+          {
+            "words": 7,
+            "text": "pooling ignores positions outside the image so"
+          }
+        ]
+      }
+    },
+    {
+      "source": "docs/INDUSTRIAL_MVTEC.md",
+      "eight_word": {
+        "matching_windows": 6,
+        "maximal_match_groups": 2,
+        "matches": [
+          {
+            "words": 8,
+            "text": "stratified by category original split and defect type"
+          },
+          {
+            "words": 12,
+            "text": "together strata with fewer than three independent examples are held out entirely"
+          }
+        ]
+      },
+      "six_word": {
+        "matching_windows": 10,
+        "maximal_match_groups": 2,
+        "matches": [
+          {
+            "words": 8,
+            "text": "stratified by category original split and defect type"
+          },
+          {
+            "words": 12,
+            "text": "together strata with fewer than three independent examples are held out entirely"
+          }
+        ]
+      }
+    },
+    {
+      "source": "docs/VIVA.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "docs/DEMO.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    },
+    {
+      "source": "docs/CAMOUFLAGE_COMPLETION.md",
+      "eight_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      },
+      "six_word": {
+        "matching_windows": 0,
+        "maximal_match_groups": 0,
+        "matches": []
+      }
+    }
+  ],
+  "external_summary": {
+    "source_documents": 9,
+    "six_word_matching_windows": 0,
+    "eight_word_matching_windows": 0,
+    "interpretation": "No contiguous six-word or eight-word matches were found between the extracted manuscript prose and the listed cached primary sources. This is a limited exact-phrase result, not a plagiarism percentage or originality certification."
+  },
+  "attribution_followup": {
+    "prior_issue": "The exact baseline structure-loss subsection lacked a nearby F3Net lineage citation despite FINet source crediting F3Net.",
+    "status": "resolved in observed manuscript",
+    "current_passage": "FINet's structure-loss code~\\cite{finet} credits F3Net~\\cite{f3net}. We retain FINet's implementation.",
+    "bibitem_present": true,
+    "reference": {
+      "authors": [
+        "Jun Wei",
+        "Shuhui Wang",
+        "Qingming Huang"
+      ],
+      "title": "F3Net: Fusion, Feedback and Focus for Salient Object Detection",
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "volume": "34",
+      "number": "07",
+      "pages": "12321–12328",
+      "year": 2020,
+      "doi": "10.1609/aaai.v34i07.6916",
+      "metadata_url": "https://ojs.aaai.org/index.php/AAAI/article/view/6916",
+      "author_code_url": "https://raw.githubusercontent.com/weijun-arc/F3Net/master/src/train.py",
+      "note": "AAAI search-index metadata available; direct page request returned an access-denied interstitial."
+    },
+    "implementation_distinction": "The manuscript preserves FINet’s scalar BCE and explicitly notes that pixelwise weighted BCE would change the baseline. F3Net author code uses pixelwise reduce=none. No equation change is required for this attribution correction."
+  },
+  "math_preservation_check": {
+    "before_path": "C:\\Users\\hrish\\Desktop\\finet1\\finet\\boundary-aware-finet\\tmp\\pdfs\\final_humanizer_review\\before.tex",
+    "before_sha256": "269a70931962c4f117e104c8238aa28750069d6f3f033eb394256a5fe3d5b7da",
+    "checks": [
+      {
+        "type": "numbered_equations",
+        "before_count": 20,
+        "after_count": 20,
+        "identical": true
+      },
+      {
+        "type": "unnumbered_display_math",
+        "before_count": 1,
+        "after_count": 1,
+        "identical": true
+      },
+      {
+        "type": "inline_math",
+        "before_count": 105,
+        "after_count": 105,
+        "identical": true
+      }
+    ]
+  },
+  "claim_scope_review": "The revised prose retains the limited one-seed validation result, one illustrative camouflage case, industrial baseline-only examples, the custom supervised MVTec protocol, both-empty conventions, and incomplete aggregate/industrial boundary evaluation. FINet architecture, EfficientNet, DCT, datasets, Adam and the F3Net lineage are credited. No additional claim or formula change was identified as necessary for the prior attribution issue.",
+  "limits": [
+    "Exact phrase matching cannot detect paraphrased copying or ideas reused without credit.",
+    "The corpus is limited to listed sources; no subscription plagiarism database or comprehensive literature corpus was searched.",
+    "The FINet full publisher PDF was not retrieved; its authors’ README and implementation were reviewed.",
+    "Similarity counts are not plagiarism percentages. AI authorship cannot be certified from this review."
+  ],
+  "manuscript_uploaded_to_checker": false,
+  "paper_edited_by_reviewer": false,
+  "conclusion": "The identified loss-lineage attribution gap is closed. The listed exact-phrase comparison does not establish comprehensive plagiarism clearance, human authorship or any AI-detector outcome."
+}

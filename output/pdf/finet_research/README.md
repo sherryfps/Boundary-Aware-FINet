@@ -1,0 +1,15 @@
+# LaTeX research paper
+
+Open `paper.tex` with the supplied `figures` folder, or import `finet_latex_source.zip` into Overleaf. Compile with pdfLaTeX twice. References are included in the source; no BibTeX file is required. The verified local preview is `paper.pdf`.
+
+The layout uses `IEEEtran` in conference mode on US Letter paper, matching the supplied PDF. Default fonts, margins, columns and spacing are retained. The four supplied authors appear in reading order. Email addresses were not supplied and are omitted. The template does not specify a submission page limit.
+
+The expanded paper is seven pages in the supplied IEEE conference style, with ten tables, twenty numbered equation groups and four figures. It states the research objectives and separates A/B controls from domain differences. Equations cover RGB/DCT preprocessing, the exact baseline and boundary losses, sampling, scheduling, native inference and metrics. Tables specify tensor shapes, optimization settings, splits, saved budgets, output exports, validation results and native TP/FP/FN counts.
+
+Both application domains include real images, ground truth, probability maps, masks and pixel error maps. Camouflage results include two completed models and their validation comparison. Industrial examples use the completed independent baseline. A matched final industrial boundary result is unavailable in the verified artifact set. Individual examples are not dataset averages, and no aggregate quality or production accuracy claim is made.
+
+`evidence.json` records source hashes and the numerical calculation behind the reported MAE difference. `source_map.md` maps the paper's measurements and references to their sources. `build_figures.py` regenerates the figures in the project environment without training or inference.
+
+The final Humanizer pass covers all seven main sections, fifteen subsections, the abstract, keywords, fourteen captions, table footnotes and bibliography. It removes repetitive framing and clarifies prose without changing the equations, table bodies, numerical results or figures. A missing F3Net loss-lineage credit was added beside FINet's implementation credit, bringing the bibliography to eight references. `humanizer_review.json` records preservation checks. `technical_verification.json` retains the earlier numerical checks against the implementation and verification of the three final checkpoint hashes. These checks are engineering evidence, not new training or segmentation experiments. Earlier versions are preserved under `revisions/`.
+
+`originality_review.md` and `attribution_review.json` describe the limited source comparison and its boundaries. No six- or eight-word prose matches were found against nine named primary documents after removing equations, table cells and bibliography. This does not establish a plagiarism percentage, detect paraphrased copying or predict an AI-detector result. No dedicated plagiarism service or AI detector was run, and the manuscript was not uploaded to an external checker.

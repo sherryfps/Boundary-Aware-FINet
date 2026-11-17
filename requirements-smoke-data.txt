@@ -1,0 +1,2 @@
+# Optional: only for fetching a few original real image/mask bytes from the public mirror.
+pyarrow==26.0.1

@@ -1,0 +1,129 @@
+{
+  "format_source": "C:\\Users\\hrish\\Downloads\\grfzhhncsfqn.pdf",
+  "format": "IEEEtran conference, US Letter, 10 pt, two columns, default geometry",
+  "camouflage_histories": {
+    "baseline": {
+      "source": "outputs\\kaggle_migration\\version005\\FINet\\experiments\\baseline_seed123456_b4_v1\\epochs.jsonl",
+      "sha256": "d2f0c84d0a4522b2e2b2c1f853e3f31a83172099fd7c481e54a9c044edcba0a9",
+      "final_validation_mae": 0.044454428945359135,
+      "epochs": 200,
+      "final_common_structure_loss": 2.590916946382806,
+      "minimum_validation_mae": 0.04310856976501395,
+      "selected_epoch": 153,
+      "sampled_history": {
+        "1": 0.08454456703626725,
+        "50": 0.050997257876408165,
+        "100": 0.04720557461282939,
+        "150": 0.044457514911237644,
+        "200": 0.044454428945359135
+      }
+    },
+    "boundary": {
+      "source": "outputs\\kaggle_migration\\version005\\FINet\\experiments\\boundary_seed123456_b4_v1\\epochs.jsonl",
+      "sha256": "08194bd18e9364b58b5f18ec69e71e41ea7338dccacee450045bdf33431f3749",
+      "final_validation_mae": 0.04404574083072124,
+      "epochs": 200,
+      "final_common_structure_loss": 2.6009304884931828,
+      "minimum_validation_mae": 0.0429768850825183,
+      "selected_epoch": 182,
+      "sampled_history": {
+        "1": 0.08248105163957997,
+        "50": 0.05236662640916368,
+        "100": 0.05030844953760625,
+        "150": 0.044558311272573904,
+        "200": 0.04404574083072124
+      }
+    }
+  },
+  "camouflage_example": {
+    "sample_id": "camourflage_00012",
+    "native_size_wh": [
+      632,
+      420
+    ],
+    "image_sha256": "86b02799d7229e564f5387ce5fccf2887325a9984527caff8a1046bb8a4a63f2",
+    "ground_truth_sha256": "45da820dda813eb04d6b976d4f563c15fff6645d5e66f3da7bf7ade63ba63da9",
+    "absent_from_development_manifest": true,
+    "scope": "One previously demonstrated CAMO test example; not an aggregate or random sample.",
+    "baseline": {
+      "checkpoint_sha256": "660a43bc1f5d57cbfd58d5cec7dd452f592932f34e1b8931567a30784af62810",
+      "metrics": {
+        "s_measure": 0.9446366799961554,
+        "mae": 0.024941495993008912,
+        "boundary_f1": 0.36706428176671085,
+        "threshold": 0.5,
+        "boundary_tolerance_pixels": 2.0,
+        "dice": 0.9621378127460615,
+        "iou": 0.9270381217874072
+      },
+      "pixel_counts": {
+        "tp": 78814,
+        "fp": 5119,
+        "fn": 1084,
+        "tn": 180423,
+        "predicted_pixels": 83933,
+        "target_pixels": 79898
+      },
+      "probability_sha256": "bbd9c6131d689cb45a379ecc8349e1156a481a1ca8a1d8b31c1a384cd55522d0"
+    },
+    "boundary": {
+      "checkpoint_sha256": "c7859e2b2445dbc195dfc1f94908c862f678871e286eb6a1dd99ef45f3caee48",
+      "metrics": {
+        "s_measure": 0.9495161135714656,
+        "mae": 0.02199135785066974,
+        "boundary_f1": 0.39575971731448767,
+        "threshold": 0.5,
+        "boundary_tolerance_pixels": 2.0,
+        "dice": 0.9670997523768763,
+        "iou": 0.9362954018089691
+      },
+      "pixel_counts": {
+        "tp": 79087,
+        "fp": 4570,
+        "fn": 811,
+        "tn": 180972,
+        "predicted_pixels": 83657,
+        "target_pixels": 79898
+      },
+      "probability_sha256": "1749b145e3beb13c66a192c3c53ba25a975c79e5a78efab395002a561d6d1663"
+    }
+  },
+  "final_mae_absolute_decrease": 0.00040868811463789373,
+  "final_mae_relative_decrease_percent": 0.9193417266482716,
+  "industrial_source": "outputs\\industrial_three_samples_20261116\\report.json",
+  "industrial_report_sha256": "bbc296d29b473bcdb02dce1073995884f4297dc93752deed98a2297cac83173c",
+  "industrial_checkpoint_sha256": "fd92df468740e977fb16e9bcc6f44dfcf424be8822d155f36ea4cc209d4db94a",
+  "industrial_pixel_counts": {
+    "mvtec_bottle_test_broken_large_004": {
+      "tp": 31029,
+      "fp": 7156,
+      "fn": 2103,
+      "tn": 769712,
+      "predicted_pixels": 38185,
+      "target_pixels": 33132
+    },
+    "mvtec_metal_nut_test_bent_003": {
+      "tp": 8949,
+      "fp": 1214,
+      "fn": 183,
+      "tn": 479654,
+      "predicted_pixels": 10163,
+      "target_pixels": 9132
+    },
+    "mvtec_carpet_test_good_006": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "tn": 1048576,
+      "predicted_pixels": 0,
+      "target_pixels": 0
+    }
+  },
+  "error_map_colors": {
+    "TP": "#27a970",
+    "FP": "#d43c32",
+    "FN": "#366bca",
+    "TN": "#151515"
+  },
+  "scope": "Camouflage validation, one same-image camouflage comparison and three industrial baseline examples; no aggregate test improvement claimed."
+}

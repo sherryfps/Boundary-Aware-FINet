@@ -1,0 +1,7 @@
+# Original evaluation, training progress, profiling and standalone plotting.
+# These are not required by predict.py; their workflows are outside Phase 1.
+tqdm
+opencv-python
+pysodmetrics
+thop
+matplotlib

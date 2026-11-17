@@ -1,103 +1,45 @@
-# FINet: Frequency Injection Network for Lightweight Camouflaged Object Detection (IEEE-SPL 2024)
+# Boundary-Aware FINet
 
-> **Authors:** 
-> Weiyun Liang,
-> Jiesheng Wu,
-> Yanfeng Wu,
-> Xinyue Mu,
-> and Jing Xu.
+Pixel-level segmentation of **camouflaged objects** and **industrial defects**, with a local Gradio application and a controlled comparison of FINet with and without boundary supervision.
 
-## 1. Overview
+FINet combines EfficientNet-B0 spatial features with block-DCT frequency features. Our boundary variant adds morphological BCE and Dice losses during training. Both variants retain the same **3,742,988-parameter** inference network.
 
-- This repository provides code for "_**FINet: Frequency Injection Network for Lightweight Camouflaged Object Detection**_", IEEE Signal Processing Letters, 2024. [Paper](https://ieeexplore.ieee.org/document/10409558) 
+## Verified results
 
-### 1.1. Introduction
+| Experiment | Saved training status | Available evidence |
+|---|---|---|
+| Camouflage baseline | 200/200 epochs | Final validation MAE 0.044454 |
+| Camouflage boundary | 200/200 epochs | Final validation MAE 0.044046 |
+| Industrial baseline | 200/200 epochs | Three individual test examples |
+| Industrial boundary | Kaggle recovery at 174/200 epochs | Final model and matched test comparison pending verification |
 
- Existing camouflaged object detection (COD) methods typically have large model parameters and computations, hindering their deployment in real-world applications. Although using lightweight backbones can help alleviate this problem, their weaker feature representation often leads to performance degradation. To address this issue, we observe that frequency information has shown effective for cumbersome networks, but its effectiveness for lightweight ones has not been thoroughly investigated. Biological studies indicate that the human visual system utilizes distinct neural pathways to respond to different frequency stimuli, contributing to specialization and efficiency. Motivated by this, we propose an efficient frequency injection module (FIM) to aid lightweight backbone features by separately injecting detailed high frequency and object-level low frequency cues at each stage. FIM can be used as a plug-and-play component in existing COD networks to enhance backbone features at a low cost. With FIM, our proposed frequency injection network (FINet) achieves competitive performance against most state-of-the-art methods with much faster speed (692FPS for the input size of 384×384) and fewer parameters (3.74 M).
+Camouflage MAE uses the same 404 validation images and one seed. The small final difference does not establish aggregate test or contour improvement. Industrial training uses a **custom supervised MVTec AD split**, which differs from the official normal-only anomaly benchmark.
 
-### 1.2. Framework
+## Run the application
 
-<p align="center">
-    <img src="imgs/FINet.png"/> <br />
-    <em> 
-    Figure 1: Overall architecture of the proposed FINet, which comprises two components: frequency injection module (FIM) and asymmetric decoder block (ADB). The FIM mainly consists of two modules: high frequency injection module (HFIM) and low frequency injection module (LFIM). F<sup>h</sup> and F<sup>l</sup> denote high and low frequency features, respectively.
-    </em>
-</p>
+The three verified final app checkpoints are included in `checkpoints/`. Dataset downloads are unnecessary for inference on your own photographs.
 
-### 1.3. Quantitative Results
+On Windows, install 64-bit Python 3.12, then run in the repository folder:
 
-<p align="center">
-    <img src="imgs/results.png"/> <br />
-    <em> 
-    Figure 2: Quantitative Comparison.
-    </em>
-</p>
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements-transfer-cpu.txt
+.\START_FINET.bat
+```
 
-### 1.4. Qualitative Results
+Open **http://127.0.0.1:7860**. Choose **Camouflaged Objects** for the completed baseline/boundary comparison, or **Factory Quality Inspection → Original FINet** for the completed industrial baseline. Upload a photograph; a matching mask is optional for metrics. Predictions export native probability maps, binary masks, overlays and provenance. Industrial boundary comparison becomes available after its completed checkpoint is installed.
 
-<p align="center">
-    <img src="imgs/vis.png"/> <br />
-    <em> 
-    Figure 3: Qualitative Comparison.
-    </em>
-</p>
+## Faculty review
 
-## 2. Proposed Baseline
+- [Research paper (PDF)](output/pdf/finet_research/paper.pdf) · [LaTeX source](output/pdf/finet_research/paper.tex) · [Complete LaTeX ZIP](output/pdf/finet_research/finet_latex_source.zip)
+- [Review guide and code map](docs/REVIEW_GUIDE.md)
+- [Controlled methodology](docs/METHODOLOGY.md) · [Industrial protocol](docs/INDUSTRIAL_MVTEC.md)
+- [Checkpoint hashes](docs/CHECKPOINT_MANIFEST.json) · [Detailed evidence and dated progress](PROGRESS.md)
 
-### 2.1. Prepare the Data
+## Datasets and recovery files on Google Drive
 
-The training and testing datasets can be downloaded from https://github.com/GewelsJI/SINet-V2/tree/main .
+**Google Drive link: pending upload.** Large datasets and recovery archives are excluded from Git. [Upload list and restore instructions](docs/GOOGLE_DRIVE.md) identify every required folder; the [file manifest](docs/drive_file_manifest.csv) lists individual files and sizes. This repository includes the app's three final checkpoints and the paper. Virtual environments and temporary caches can be recreated.
 
-You can modify `config.py` to set all the data paths. Here is an example of a setup:
+## Attribution
 
-1. Put the training data in folder `./data/TrainDataset`, and put the testing data in folder `./data/TestDataset`.
-
-2. `TrainDataset` should contain two folders: `Imgs` and `GT`. 
-
-3. `TestDataset` should contain four folders: `CHAMELEON`, `CAMO`, `COD10K`, and `NC4K`. Each of the four folders contains two sub-folders: `Imgs` and `GT`.
-
-### 2.2 Training Configuration
-
-+ Traning hyperparameters and data paths can be modified in `config.py`.
-
-+ Installing necessary packages:
-   + pytorch: https://pytorch.org
-   + torch-dct: https://github.com/zh217/torch-dct
-   + pysodmetrics: https://github.com/lartpang/PySODMetrics
-   + timm: https://github.com/huggingface/pytorch-image-models
-  
-### 2.3 Training, Inference, and Testing
-
-+ Run `train.py` to train the model.
-
-+ Run `inference.py` to generate the prediction maps. Set path to your trained checkpoint (`pth_path`).
-
-+ Run `evaluate.py` to calculate the evaluation metrics for the prediction maps. Set path to your predictions (`pred_path`).
-
-## 3. Pre-computed Maps and Trained Weights
-
-+ Pre-computed Maps: 
-   + FINet (EfficientNet-B0): [Google Drive](https://drive.google.com/file/d/1mLOV0RcCVc0jlGFOcPQsEZ1j53OhvPjh/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1wUd4E9_Dt00adKh7o0JXpA) (extraction code: 0w3w)
-   + FINet (TinyNet-A): [Google Drive](https://drive.google.com/file/d/1ogdU4KURdJSQGs-e7ciz1fo-viw_AVBf/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1RJKRg9sPjO9GQs_5nbUaOQ) (extraction code: ymjm)
-
-+ Trained Weights: 
-   + FINet (EfficientNet-B0): [Google Drive](https://drive.google.com/file/d/1ePSiaW14I_NecnBAXE7O_-ApIuFFduuI/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1JNtzpoVZbVjF-15rFK6WuQ) (extraction code: hdrs)
-   + FINet (TinyNet-A): [Google Drive](https://drive.google.com/file/d/1rzyEp-DeoYLePngk6rzdiGgNr1juYJTM/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/165lLc7iOD0WD6DsllgpC2Q) (extraction code: 22gg)
-
-
-## 4. Citation
-
-Please cite our paper if you find the work useful, thanks!
-	
-    @ARTICLE{10409558,
-        author={Liang, Weiyun and Wu, Jiesheng and Wu, Yanfeng and Mu, Xinyue and Xu, Jing},
-        journal={IEEE Signal Processing Letters}, 
-        title={FINet: Frequency Injection Network for Lightweight Camouflaged Object Detection}, 
-        year={2024},
-        volume={31},
-        pages={526-530},
-        doi={10.1109/LSP.2024.3356416}
-    }
-
-    
-**[⬆ back to top](#1-overview)**
+Based on [FINet by Liang et al.](https://github.com/CRRCOO/FINet), IEEE Signal Processing Letters, 2024, [DOI: 10.1109/LSP.2024.3356416](https://doi.org/10.1109/LSP.2024.3356416). The original architecture and four-head structure loss are retained. The loss source credits [F3Net](https://doi.org/10.1609/aaai.v34i07.6916). Original author documentation is preserved in the [archived README](docs/archive/README_before_github_20261118.md). No project-wide license is asserted for the upstream source. MVTec AD data retain their CC BY-NC-SA 4.0 terms; this is an academic prototype.

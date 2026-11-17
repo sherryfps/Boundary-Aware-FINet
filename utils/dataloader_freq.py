@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 from utils.data_augmentation import cv_random_flip, randomCrop, randomRotation, randomPeper, colorEnhance
 from utils.dct import dct_2d
 import pickle
+from pathlib import Path
 
 
 class TrainDataset(Dataset):
@@ -54,7 +55,7 @@ class TrainDataset(Dataset):
             transforms.ToTensor()])
 
         # frequency mean and sample std
-        with open('./utils/freq_mean_std.pkl', 'rb') as f:
+        with open(Path(__file__).resolve().with_name('freq_mean_std.pkl'), 'rb') as f:
             freq_stats = pickle.load(f)
         self.freq_norm = transforms.Normalize(mean=freq_stats['mean'], std=freq_stats['std'])
 
@@ -187,7 +188,7 @@ class TestDataset(Dataset):
             transforms.ToTensor()])
 
         # frequency mean and sample std
-        with open('./utils/freq_mean_std.pkl', 'rb') as f:
+        with open(Path(__file__).resolve().with_name('freq_mean_std.pkl'), 'rb') as f:
             freq_stats = pickle.load(f)
         self.freq_norm = transforms.Normalize(mean=freq_stats['mean'], std=freq_stats['std'])
 

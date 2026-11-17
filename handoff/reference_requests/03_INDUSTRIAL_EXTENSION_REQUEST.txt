@@ -1,0 +1,254 @@
+Continue working on our existing **Boundary-Aware FINet** project. You already have the complete project context, codebase, training progress, checkpoints, and development history.
+
+**NEW UPDATE:**
+
+I have opened another Kaggle account in **Google Chrome**. Use your **Computer Use skill and browser automation** to access this active Chrome session and perform the entire workflow.
+
+I want to add a second real-world application to our existing FINet project:
+
+**Industrial Defect Segmentation using the MVTec AD dataset.**
+
+### 1. Dataset
+
+**Dataset:** MVTec AD (MVTec Anomaly Detection)
+
+**Application:** Automated factory quality inspection.
+
+The dataset contains 5,354 images across 15 industrial product and texture categories, including defects such as scratches, cracks, dents, contamination, and surface irregularities.
+
+**Dataset download link:**
+
+https://www.mydrive.ch/shares/163178/c8212c2166a9e4dfe22dd1bed476a345/download/420938113-1629960298/mvtec_anomaly_detection.tar.xz
+
+Use this download link if accessible. Verify the archive and dataset structure before training.
+
+### 2. Fully automate Kaggle setup
+
+Use Computer Use to:
+
+1. Access my currently opened Chrome browser and signed-in Kaggle account.
+2. Create a new Kaggle Notebook for FINet industrial defect segmentation.
+3. Enable GPU acceleration if the account permits it.
+4. Transfer or retrieve our existing FINet project code.
+5. Download and extract MVTec AD.
+6. Store the dataset using Kaggle-supported input storage.
+7. Install and verify the required dependencies.
+8. Configure the GPU training environment.
+9. Run preprocessing and training smoke tests.
+10. Resolve errors automatically wherever possible.
+
+Do not ask me to perform manual browser steps if your computer-control tools can perform them. Ask only when authentication, CAPTCHA, permissions, quotas, or inaccessible files require my involvement.
+
+### 3. Adapt MVTec AD correctly for FINet
+
+**Important:** MVTec AD is primarily an anomaly-detection benchmark, not a conventional fully supervised segmentation training dataset.
+
+Its original training split mainly contains defect-free images, while defect annotations are supplied for abnormal test images.
+
+Since FINet requires supervised image-mask pairs, implement a scientifically valid adaptation.
+
+Requirements:
+
+- Inspect all 15 categories and their available defect masks.
+- Correctly pair defective images with pixel-level annotations.
+- Treat `good` images as normal examples with empty masks.
+- Create a reproducible, category-aware supervised split if necessary.
+- If using annotated abnormal test images for training, explicitly label this as a **custom supervised MVTec split**, not the official anomaly-detection benchmark protocol.
+- Maintain a completely separate held-out evaluation set.
+- Prevent image leakage between training, validation, and testing.
+- Document the exact images and original splits used.
+- Preserve any opportunity for official-protocol evaluation separately.
+- Resize and preprocess images according to FINet's requirements.
+- Convert defect annotations to binary foreground/background masks.
+- Handle class imbalance and small defects appropriately.
+
+Do not falsely claim official MVTec benchmark performance from a custom split.
+
+### 4. Train FINet for industrial defects
+
+Use the existing FINet architecture with ImageNet-pretrained EfficientNet-B0 initialization.
+
+Create a separate industrial training configuration and model checkpoint.
+
+Do not overwrite our camouflage-detection model weights.
+
+Train a real segmentation model capable of identifying industrial defects.
+
+Prioritize the following:
+
+1. Initialize and verify FINet.
+2. Prepare MVTec image-mask loaders.
+3. Run a GPU training smoke test.
+4. Verify forward pass, gradients, optimizer updates, and checkpoint recovery.
+5. Train using genuine industrial image-mask pairs.
+6. Monitor training and validation losses.
+7. Save intermediate and best-performing checkpoints.
+8. Resume interrupted training automatically when the platform supports it.
+9. Evaluate the model on held-out defect images.
+10. Save real segmentation predictions, masks, and overlays.
+
+Use the available Kaggle GPU resources responsibly.
+
+Keep training reproducible and record actual experiment settings.
+
+If full 15-category training is too expensive, prioritize a documented subset of categories and expand only when resources permit. Never represent subset results as full-dataset results.
+
+### 5. Boundary-aware industrial experiment
+
+After establishing a working industrial FINet baseline, apply our existing differentiable boundary-supervision approach.
+
+Compare:
+
+**Industrial Model A:** Original FINet.
+
+**Industrial Model B:** Boundary-Aware FINet.
+
+Use matched initialization, datasets, splits, optimizer settings, and training schedules wherever practical.
+
+Evaluate using:
+
+- Dice score.
+- IoU.
+- MAE.
+- Boundary F-score.
+- Inference latency.
+
+Also evaluate performance separately by industrial category where possible.
+
+Report actual findings, including failures or cases where the additional boundary loss does not help.
+
+### 6. Integrate industrial weights into our existing Gradio application
+
+**Do not create an unrelated second application.**
+
+Upgrade the existing main FINet Gradio application to support different application domains.
+
+Add an easy-to-use **Application Mode / Model Weights selector**.
+
+The interface should contain:
+
+**Mode 1 — Camouflaged Object Detection**
+
+Load our existing trained FINet camouflage weights.
+
+Allow users to upload natural images and obtain camouflaged object segmentation masks.
+
+**Mode 2 — Factory Quality Inspection**
+
+Load our newly trained MVTec industrial defect segmentation weights.
+
+Allow users to upload product or surface images and obtain defect segmentation masks.
+
+**Mode 3 — Research Comparison**
+
+Where verified checkpoints exist, allow users to compare original FINet against Boundary-Aware FINet for the selected domain.
+
+Each mode must load the correct checkpoint, preprocessing configuration, and class/label interpretation.
+
+The application must never accidentally use camouflage weights for industrial defect prediction or vice versa.
+
+### 7. Improve the Gradio user interface
+
+Make the existing Gradio app professional and suitable for a college project demonstration.
+
+Include:
+
+- Application title: **FINet Vision AI**
+- Domain selector: Camouflaged Objects / Factory Quality Inspection.
+- Model selector: Original FINet / Boundary-Aware FINet, when available.
+- Image upload.
+- Analyze Image button.
+- Original image.
+- Predicted segmentation mask.
+- Binary mask.
+- Colored segmentation overlay.
+- Optional boundary visualization.
+- Adjustable mask threshold.
+- Measured inference time.
+- Downloadable output images.
+- Clear information about the selected model and its training dataset.
+
+For factory inspection, display **Predicted Defect Region** instead of **Camouflaged Object**.
+
+A normal-looking product should be allowed to produce an empty defect mask.
+
+Do not label a product as defective solely because every predicted mask contains tiny amounts of noise. Use a documented thresholding or postprocessing strategy, validated on appropriate data.
+
+If weights are unavailable, show a clear error rather than fake predictions.
+
+### 8. Preserve existing training progress
+
+Our original camouflage FINet project must remain intact.
+
+- Preserve all existing checkpoints.
+- Preserve Google Colab and Kaggle training history.
+- Do not overwrite original training configurations.
+- Do not reset the original baseline experiment.
+- Keep medical or industrial experiments separate.
+- Preserve all existing passing tests.
+- Maintain separate checkpoint folders for each domain and training variant.
+
+Continue any unfinished camouflage training where resources and account access permit, without interfering with industrial training.
+
+### 9. Complete end-to-end verification
+
+After training:
+
+1. Confirm industrial weights load correctly.
+2. Run genuine inference on unseen industrial images.
+3. Verify predicted masks align with original images.
+4. Test defect-free and defective examples.
+5. Verify the application switches correctly between camouflage and factory modes.
+6. Test the original and boundary-aware checkpoint selectors.
+7. Test downloads and inference timing.
+8. Run automated tests.
+9. Launch the actual Gradio application.
+10. Capture screenshots of the working interface.
+
+Create a real comparison table and examples for our faculty presentation.
+
+### 10. Documentation and project report
+
+Update the existing:
+
+- `PROGRESS.md`
+- `README.md`
+- Training documentation.
+- Evaluation results.
+- Application documentation.
+- Architecture explanation.
+- Final project report material.
+
+Add a section explaining the real-world value of automated industrial defect inspection and why subtle defects can be challenging to segment.
+
+Clearly explain how the original FINet architecture was adapted for industrial defect segmentation.
+
+Preserve all dataset citations and usage restrictions.
+
+Do not make claims that this academic prototype is certified for factory production environments.
+
+### 11. Automation rules
+
+I want you to **execute this workflow directly**, not respond with another list of instructions for me.
+
+Use the available Computer Use/browser skill to work with my Chrome session and Kaggle account.
+
+If the available tools cannot directly control Chrome, report that limitation and use any authorized alternative that can complete the task.
+
+Automate downloading, dataset preparation, notebook creation, code execution, training, evaluation, debugging, and Gradio integration wherever supported.
+
+Do not invent progress, checkpoint files, model accuracy, training completion, or browser interactions.
+
+Do not exceed available GPU quotas, start paid services, or purchase additional compute without my approval.
+
+Save recoverable checkpoints before Kaggle sessions terminate.
+
+For any work that cannot continue without a live session, save the exact state and provide a reproducible resume procedure.
+
+**START NOW:**
+
+Inspect our current project state, connect to the already opened Chrome/Kaggle session if supported, prepare the MVTec dataset and Kaggle training notebook, and begin the verified industrial FINet training workflow.
+
+Continue through checkpoint creation, real evaluation, and integration into our existing Gradio application as resources permit.
+
+**Final objective:** One fully functional FINet Vision AI application with separate model weights for **Camouflaged Object Segmentation** and **Industrial Defect Segmentation**, plus genuine experimental comparisons and reproducible results.

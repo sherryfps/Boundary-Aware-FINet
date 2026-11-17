@@ -1,0 +1,229 @@
+% Select the template's classic font encoding before IEEEtran is loaded.
+% This also preserves Times text when compiling with a XeTeX based engine.
+\RequirePackage[OT1]{fontenc}
+\documentclass[conference,letterpaper]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{url}
+
+% Compile this file with the supplied figures/ directory.
+% Author order and affiliation were supplied by the authors. No email was supplied.
+% This command arranges four standard IEEE author blocks in reading order.
+\makeatletter
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}\hfill\mbox{}\par
+  \mbox{}\hfill\begin{@IEEEauthorhalign}}
+\makeatother
+
+\title{Boundary Supervision for Camouflaged Object and Industrial Defect Segmentation}
+\author{
+\IEEEauthorblockN{Shreyash Chilweri}
+\IEEEauthorblockA{\textit{Department of CSE}\\
+\textit{D. Y. Patil International University}\\Pune, India}
+\and
+\IEEEauthorblockN{Ganesh Sutar}
+\IEEEauthorblockA{\textit{Department of CSE}\\
+\textit{D. Y. Patil International University}\\Pune, India}
+\linebreakand
+\IEEEauthorblockN{Shreeyash Raut}
+\IEEEauthorblockA{\textit{Department of CSE}\\
+\textit{D. Y. Patil International University}\\Pune, India}
+\and
+\IEEEauthorblockN{Ketan Raut}
+\IEEEauthorblockA{\textit{Department of CSE}\\
+\textit{D. Y. Patil International University}\\Pune, India}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study camouflaged object and industrial defect segmentation with the Frequency Injection Network. Boundary supervision combines binary cross entropy and Dice loss on differentiable morphological boundaries without changing inference. Matched camouflage variants completed 200 epochs on 3636 training images, with 404 validation images. Final validation mean absolute error was 0.044454 for the baseline and 0.044046 with boundary supervision. On one held out camouflage image, Dice scores were 0.9621 and 0.9671. A separate supervised industrial baseline scored 0.8702 and 0.9276 on two defective images and predicted an empty mask on one normal image. Input images, ground truth and predictions are reported for both domains. These observations do not establish aggregate test or boundary quality improvement.
+\end{abstract}
+
+\begin{IEEEkeywords}
+camouflaged object segmentation, frequency injection, boundary supervision, industrial defect segmentation
+\end{IEEEkeywords}
+
+\section{Introduction}
+Camouflaged object segmentation assigns foreground probabilities to pixels whose appearance resembles the surrounding scene. Frequency Injection Network (FINet) combines spatial and frequency features in a lightweight model~\cite{finet}. We examine whether boundary supervision can improve segmentation while preserving its inference architecture.
+
+Region overlap can conceal contour errors. We add a local boundary objective to the existing loss and compare variants initialized from identical full model tensors. The study covers camouflaged object segmentation with both completed models and industrial defect segmentation with a separately trained baseline.
+
+\section{Related Work}
+Liang \textit{et al.} introduced FINet, which injects high and low frequency information into spatial features~\cite{finet}. The encoder uses EfficientNet, a family of convolutional networks based on coordinated model scaling~\cite{efficientnet}. COD10K was introduced for camouflaged object detection~\cite{cod10k}; CAMO provides annotated camouflage images~\cite{camo}. Our development data combine their training subsets. MVTec AD provides industrial objects, textures and defect masks for anomaly detection~\cite{mvtec}. Our industrial experiment instead uses defect annotations during training, so it follows a custom supervised protocol.
+
+\section{Method}
+\subsection{Preserved Segmentation Network}
+FINet uses a torchvision ImageNet initialized EfficientNet-B0 encoder. Its frequency modules, asymmetric decoder and four heads are retained. Frequency and decoder parameters begin randomly. Both variants contain 3,742,988 parameters.
+
+The spatial branch receives ImageNet normalized $384\times384$ RGB images. The frequency branch converts intensities to YCbCr and applies an orthonormal discrete cosine transform to nonoverlapping $8\times8$ blocks. Original coefficient ordering and normalization statistics are retained. Each color channel contributes 32 coefficients to each branch, yielding two $96\times48\times48$ tensors.
+
+Inference resizes the first head's logits to native dimensions using bilinear interpolation with aligned corners, then applies sigmoid. No imagewise normalization is applied. Binary masks use threshold 0.5 without cleanup or forced foreground.
+
+\subsection{Boundary Supervision}
+Let $P=\sigma(Z)$ be the probability map from a prediction head and $G$ its training mask. For pixel $u$, the local boundary map is
+\begin{equation}
+ B(P)_u=\max_{v\in\mathcal{N}_3(u)}P_v-
+             \min_{v\in\mathcal{N}_3(u)}P_v,
+ \label{eq:boundary}
+\end{equation}
+where $\mathcal{N}_3(u)$ is the valid part of a $3\times3$ neighborhood. Maximum pooling and negated maximum pooling implement the two terms. Positions outside the image are ignored, so constant maps do not acquire an artificial frame boundary.
+
+Set $B_P=B(P)$ and $B_G=B(\mathbf{1}[G\geq0.5])$. The boundary loss is
+\begin{equation}
+\begin{aligned}
+ \ell_b(P,G)={}&\operatorname{BCE}(\widetilde{B}_P,B_G)\\
+ &+1-\frac{2\sum_u B_{P,u}B_{G,u}+1}
+ {\sum_u B_{P,u}+\sum_u B_{G,u}+1},
+\end{aligned}
+\label{eq:boundaryloss}
+\end{equation}
+where binary cross entropy (BCE) is averaged over pixels and $\widetilde{B}_P$ is clamped to $[\epsilon,1-\epsilon]$ using FP32 machine epsilon. The Dice term uses the unclamped boundary. Losses are averaged over images. Only the boundary target is binarized and detached; the prediction remains differentiable.
+
+For four logits maps $Z_h$, the objectives are
+\begin{equation}
+\begin{aligned}
+ \mathcal{L}_A&=\sum_{h=1}^{4}\ell_s(Z_h,G),\\
+ \mathcal{L}_B&=\mathcal{L}_A+
+           0.1\sum_{h=1}^{4}\ell_b(\sigma(Z_h),G).
+\end{aligned}
+\label{eq:objectives}
+\end{equation}
+Here $\ell_s$ is the unchanged upstream structure loss. Its BCE is reduced to a scalar before spatial weighting, which cancels that weighting; the intersection over union term remains weighted. This source behavior is preserved in both variants. The original soft mask reaches $\ell_s$ unchanged. Boundary supervision introduces no inference layer or parameter.
+
+\section{Experimental Setup}
+\subsection{Camouflaged Object Experiment}
+The camouflage development set contains 3040 COD10K and 1000 CAMO training pairs. A fixed source stratified split assigns 3636 pairs to training and 404 to validation. Duplicate image pairs remain within one split. Original grayscale masks are preserved. The original horizontal flip, crop, rotation, color adjustment and mask pepper noise augmentations are shared by both variants.
+
+Both runs load an identical complete initialization, including randomly initialized components and normalization buffers. They use seed 123456, batch size 4, FP32, Adam, initial learning rate $2.6\times10^{-4}$, weight decay $4\times10^{-8}$ and a 200 epoch cosine schedule with minimum learning rate $10^{-7}$. Two loader workers and deterministic cuDNN settings are used. Each run completed 181,800 optimizer updates. Training used Tesla T4 GPU sessions. Full optimizer, scheduler and random generator states support recovery across sessions.
+
+\subsection{Industrial Defect Experiment}
+The industrial experiment uses all 5354 images and 15 MVTec AD categories (Table~\ref{tab:split}). Splitting is stratified by category, original split and defect type, keeping identical decoded images together. Replacement sampling balances category and normal or defective strata. Augmentation uses horizontal flips and nearest neighbor mask resizing. Industrial variants share initialization and optimization settings. The baseline completed 200 epochs and 186,400 updates. Boundary training is incomplete, so no industrial comparison is reported.
+
+\begin{table}[t]
+\caption{Custom supervised industrial split}
+\label{tab:split}
+\centering
+\begin{tabular}{lrrr}
+\hline
+Subset & Normal & Defective & Total\\
+\hline
+Training & 2866 & 862 & 3728\\
+Validation & 615 & 198 & 813\\
+Test & 615 & 198 & 813\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Measurement Protocol}
+Camouflage validation mean absolute error (MAE) averages each image's native resolution absolute probability error against its original grayscale mask scaled to $[0,1]$. The main comparison uses final epoch 200 weights. Minimum validation MAE checkpoints are recorded separately and are not treated as test results. No test data tune the loss weight or threshold.
+
+For individual examples in both domains, Dice and intersection over union (IoU) compare thresholded predictions with native binary masks. Boundary F1 uses an inner contour obtained with eight neighbor erosion and a Euclidean matching tolerance of two native pixels. Both empty masks score one; a single empty mask scores zero. This contour metric differs from the morphological map used for training.
+
+\section{Results and Discussion}
+\subsection{Camouflaged Object Validation}
+Table~\ref{tab:validation} reports the verified validation measurements. At epoch 200, the boundary variant has an absolute MAE decrease of 0.000409, approximately 0.92 percent relative to the baseline. Fig.~\ref{fig:validation} shows the recorded validation histories. The lowest validation errors occur at different epochs. Training losses are not directly compared because the objectives differ.
+
+\begin{table}[t]
+\caption{Camouflage validation MAE on 404 images}
+\label{tab:validation}
+\centering
+\begin{tabular}{lrr}
+\hline
+Variant & Epoch 200 MAE & Minimum MAE (epoch)\\
+\hline
+Baseline & 0.044454 & 0.043109 (153)\\
+Boundary & 0.044046 & 0.042977 (182)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/validation_mae.pdf}
+\caption{Recorded camouflage validation MAE over 200 epochs. These curves do not measure held out test performance or contour quality.}
+\label{fig:validation}
+\end{figure}
+
+This small, single seed MAE difference does not establish significance or contour improvement. Aggregate camouflage test results remain unverified.
+
+\subsection{Camouflaged Object Example}
+The CAMO test image \texttt{camourflage\_00012} is absent from the development manifest. Both epoch 200 predictions use threshold 0.5 at its native $632\times420$ size. Saved probabilities and original ground truth independently verify Table~\ref{tab:camoexample}. Fig.~\ref{fig:camoexample} shows the input, annotation and both masks.
+
+\begin{table}[t]
+\caption{One CAMO test example, not a dataset average}
+\label{tab:camoexample}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Variant & Dice & IoU & MAE & Boundary F1\\
+\hline
+Baseline & 0.9621 & 0.9270 & 0.024941 & 0.3671\\
+Boundary & 0.9671 & 0.9363 & 0.021991 & 0.3958\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/camouflage_example.pdf}
+\caption{Camouflaged object segmentation on the same CAMO test photograph. Top row: input and ground truth. Bottom row: baseline and boundary supervised masks, both from epoch 200 at threshold 0.5.}
+\label{fig:camoexample}
+\end{figure}
+
+Both masks recover most of the fish. The boundary variant scores higher on this previously demonstrated image, but its Boundary F1 remains 0.3958. This is an illustrative example, not a random sample or evidence of general improvement.
+
+\subsection{Industrial Baseline Examples}
+Three examples were selected before inference: the first registered test IDs matching a broken bottle, bent metal nut and normal carpet. All were excluded from development, with source hashes checked. The final industrial baseline used threshold 0.5. Table~\ref{tab:industrial} and Fig.~\ref{fig:industrial} report their measurements and masks.
+
+\begin{table}[t]
+\caption{Three industrial baseline examples, not dataset averages}
+\label{tab:industrial}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Example & Dice & IoU & MAE & Boundary F1\\
+\hline
+Broken bottle & 0.8702 & 0.7702 & 0.011527 & 0.1884\\
+Bent metal nut & 0.9276 & 0.8650 & 0.002903 & 0.5000\\
+Normal carpet & $1.0000^{a}$ & $1.0000^{a}$ & $<10^{-10}$ & $1.0000^{a}$\\
+\hline
+\multicolumn{5}{l}{\footnotesize $^{a}$Both masks are empty; zero foreground pixels were predicted.}
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/industrial_examples.pdf}
+\caption{Industrial baseline examples. Columns show the input, ground truth and predicted binary mask. Rows show the broken bottle, bent metal nut and normal carpet. The threshold is 0.5.}
+\label{fig:industrial}
+\end{figure}
+
+The defective examples show region overlap, but the bottle's Boundary F1 of 0.1884 indicates weak contour alignment. The normal image produces an empty mask; its score of one follows the metric convention. Three examples cannot estimate performance across 813 test images or 15 categories.
+
+\subsection{Scope and Limitations}
+The supervised industrial split differs from the official normal only anomaly detection protocol. Resizing to 384 pixels may remove small defects. The application displays candidate regions without a validated acceptance decision. Full test evaluation, completed industrial boundary training and repeated seeds are needed to assess generalization and consistency.
+
+\section{Conclusion}
+Boundary supervision was added to FINet without changing its inference architecture or parameter count. Matched 200 epoch camouflage runs show a small validation MAE decrease, with both models demonstrated on the same held out object image. The separate industrial baseline shows region overlap and a contour weakness on defective examples. Full test evaluation is needed to judge general improvement in either domain.
+
+\begin{thebibliography}{00}
+\bibitem{finet}
+W. Liang, J. Wu, Y. Wu, X. Mu, and J. Xu, ``FINet: Frequency injection network for lightweight camouflaged object detection,'' \textit{IEEE Signal Process. Lett.}, vol. 31, pp. 526--530, 2024, doi: 10.1109/LSP.2024.3356416.
+
+\bibitem{efficientnet}
+M. Tan and Q. V. Le, ``EfficientNet: Rethinking model scaling for convolutional neural networks,'' in \textit{Proc. Int. Conf. Mach. Learn.}, vol. 97, 2019, pp. 6105--6114.
+
+\bibitem{cod10k}
+D.-P. Fan, G.-P. Ji, G. Sun, M.-M. Cheng, J. Shen, and L. Shao, ``Camouflaged object detection,'' in \textit{Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.}, 2020, pp. 2777--2787.
+
+\bibitem{camo}
+T.-N. Le, T. V. Nguyen, Z. Nie, M.-T. Tran, and A. Sugimoto, ``Anabranch network for camouflaged object segmentation,'' \textit{Comput. Vis. Image Underst.}, vol. 184, pp. 45--56, 2019, doi: 10.1016/j.cviu.2019.04.006.
+
+\bibitem{mvtec}
+P. Bergmann, M. Fauser, D. Sattlegger, and C. Steger, ``MVTec AD: A comprehensive real-world dataset for unsupervised anomaly detection,'' in \textit{Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.}, 2019, pp. 9584--9592, doi: 10.1109/CVPR.2019.00982.
+\end{thebibliography}
+\end{document}

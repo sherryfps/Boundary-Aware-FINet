@@ -147,13 +147,13 @@ class FFM(nn.Module):
 
 class FINet(nn.Module):
 
-    def __init__(self, backbone='efficientb0', channels=(8,12,24,48)):
+    def __init__(self, backbone='efficientb0', channels=(8,12,24,48), pretrained_backbone=True):
         super(FINet, self).__init__()
 
         if backbone == 'efficientb0':
-            self.encoder = EfficientNet_B0()
+            self.encoder = EfficientNet_B0(pretrained=pretrained_backbone)
         elif backbone == 'tinynet-a':
-            self.encoder = TinyNetA()
+            self.encoder = TinyNetA(pretrain=pretrained_backbone)
         else:
             print('backbone error')
             return

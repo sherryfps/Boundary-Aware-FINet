@@ -1,0 +1,50 @@
+{
+  "structure_formula_absolute_error": 1.1920928955078125e-07,
+  "morphological_map_maximum_error": 0.0,
+  "boundary_formula_absolute_error": 0.0,
+  "orthonormal_dct_maximum_error": 6.827871601444713e-15,
+  "schedule_epoch1_lr": 0.00026,
+  "schedule_epoch200_lr": 1e-07,
+  "industrial_joint_strata": 30,
+  "sampler_stratum_mass_maximum_error": 1.1102230246251565e-16,
+  "checkpoint_hashes": {
+    "checkpoints/baseline/last.pth": "660a43bc1f5d57cbfd58d5cec7dd452f592932f34e1b8931567a30784af62810",
+    "checkpoints/boundary/last.pth": "c7859e2b2445dbc195dfc1f94908c862f678871e286eb6a1dd99ef45f3caee48",
+    "checkpoints/industrial/baseline/last.pth": "fd92df468740e977fb16e9bcc6f44dfcf424be8822d155f36ea4cc209d4db94a"
+  },
+  "adam_settings": {
+    "checkpoints/baseline/last.pth": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "weight_decay": 4e-08
+    },
+    "checkpoints/boundary/last.pth": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "weight_decay": 4e-08
+    },
+    "checkpoints/industrial/baseline/last.pth": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "weight_decay": 4e-08
+    }
+  },
+  "status": "passed",
+  "scope": "Engineering verification of paper equations and saved artifacts only; no training or model inference.",
+  "tolerances": {
+    "structure_absolute": 1e-06,
+    "boundary_absolute": 1e-06,
+    "morphological_map": 0,
+    "dct_maximum": 1e-12,
+    "stratum_mass_maximum": 1e-12
+  }
+}
